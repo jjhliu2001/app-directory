@@ -1,4 +1,4 @@
-import { RenderingInfo } from '#/ui/rendering-info';
+import { RenderingInfo } from '@/ui/rendering-info';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

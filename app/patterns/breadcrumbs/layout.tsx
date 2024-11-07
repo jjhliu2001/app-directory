@@ -1,6 +1,6 @@
-import { getCategories } from '#/app/api/categories/getCategories';
-import { Boundary } from '#/ui/boundary';
-import { TabGroup } from '#/ui/tab-group';
+import { getCategories } from '@/app/api/categories/getCategories';
+import { Boundary } from '@/ui/boundary';
+import { TabGroup } from '@/ui/tab-group';
 import React from 'react';
 
 const title = 'Breadcrumbs with Parallel Routes';

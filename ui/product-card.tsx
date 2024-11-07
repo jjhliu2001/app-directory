@@ -1,10 +1,10 @@
-import { Product } from '#/app/api/products/product';
-import { ProductBestSeller } from '#/ui/product-best-seller';
-import { ProductEstimatedArrival } from '#/ui/product-estimated-arrival';
-import { ProductLowStockWarning } from '#/ui/product-low-stock-warning';
-import { ProductPrice } from '#/ui/product-price';
-import { ProductRating } from '#/ui/product-rating';
-import { ProductUsedPrice } from '#/ui/product-used-price';
+import { Product } from '@/app/api/products/product';
+import { ProductBestSeller } from '@/ui/product-best-seller';
+import { ProductEstimatedArrival } from '@/ui/product-estimated-arrival';
+import { ProductLowStockWarning } from '@/ui/product-low-stock-warning';
+import { ProductPrice } from '@/ui/product-price';
+import { ProductRating } from '@/ui/product-rating';
+import { ProductUsedPrice } from '@/ui/product-used-price';
 import { dinero, type DineroSnapshot } from 'dinero.js';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,7 +38,7 @@ export const ProductCard = ({
           />
         </div>
 
-        <div className="truncate text-sm font-medium text-white group-hover:text-vercel-cyan">
+        <div className="group-hover:text-vercel-cyan truncate text-sm font-medium text-white">
           {product.name}
         </div>
 

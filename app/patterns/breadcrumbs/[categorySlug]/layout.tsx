@@ -1,5 +1,5 @@
-import { getCategories, getCategory } from '#/app/api/categories/getCategories';
-import { TabGroup } from '#/ui/tab-group';
+import { getCategories, getCategory } from '@/app/api/categories/getCategories';
+import { TabGroup } from '@/ui/tab-group';
 
 export default async function Layout(props: {
   children: React.ReactNode;

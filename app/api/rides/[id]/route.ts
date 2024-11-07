@@ -1,27 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "#/lib/prisma";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '#/lib/prisma';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(request: NextApiRequest, response: NextApiResponse) {
+  const { id } = request.query as { id: string };
+
   try {
     const ride = await prisma.ride.findUnique({
-      where: {
-        id: params.id,
-      },
+      where: { id },
     });
 
     if (!ride) {
-      return NextResponse.json({ error: "Ride not found" }, { status: 404 });
+      return response.status(404).json({ error: 'Ride not found' });
     }
 
-    return NextResponse.json(ride);
+    return response.status(200).json(ride);
   } catch (error) {
-    console.error("Error fetching ride:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+    console.error('Error fetching ride:', error);
+    return response.status(500).json({ error: 'Internal server error' });
   }
 }
