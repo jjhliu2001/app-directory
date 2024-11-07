@@ -38,7 +38,7 @@ export default function OfferRidePage() {
         },
         body: JSON.stringify({
           ...data,
-          departureTime: departureTimeEpoch,
+          departureTimeMs: departureTimeEpoch,
         }),
       })
 
