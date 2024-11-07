@@ -37,22 +37,22 @@ export default function RidePage() {
   const [showPhoneForm, setShowPhoneForm] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState('')
 
-  useEffect(() => {
-    const fetchRide = async () => {
-      try {
-        const response = await fetch(`/api/rides/${params.id}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch ride details')
-        }
-        const data = await response.json()
-        setRide(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
+  const fetchRide = async () => {
+    try {
+      const response = await fetch(`/api/rides/${params.id}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch ride details')
       }
+      const data = await response.json()
+      setRide(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchRide()
   }, [params.id])
 
@@ -75,7 +75,7 @@ export default function RidePage() {
 
       setShowPhoneForm(false)
       setPhoneNumber('')
-      router.refresh()
+      await fetchRide() // Refresh the data after booking
 
       toast({
         title: 'Ride booked successfully',
