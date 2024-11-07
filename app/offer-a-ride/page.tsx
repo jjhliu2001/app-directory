@@ -54,6 +54,7 @@ export default function OfferRidePage() {
         body: JSON.stringify({
           ...data,
           departureTimeMs: departureTimeEpoch,
+          phoneNumber: data.phoneNumber.replace(/\D/g, ''), // Strip non-numeric characters
         }),
       })
 
@@ -82,18 +83,28 @@ export default function OfferRidePage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <FormControl>
-            <FormLabel htmlFor="meetingPoint">Meeting Point</FormLabel>
+            <FormLabel htmlFor="destination">
+              Destination
+              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
+                Where are you heading to?
+              </Box>
+            </FormLabel>
             <Input
-              id="meetingPoint"
-              {...register('meetingPoint', { required: true })}
+              id="destination"
+              {...register('destination', { required: true })}
             />
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="destination">Destination</FormLabel>
+            <FormLabel htmlFor="meetingPoint">
+              Meeting Point
+              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
+                Where should your passengers meet you?
+              </Box>
+            </FormLabel>
             <Input
-              id="destination"
-              {...register('destination', { required: true })}
+              id="meetingPoint"
+              {...register('meetingPoint', { required: true })}
             />
           </FormControl>
 
@@ -107,7 +118,12 @@ export default function OfferRidePage() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Seats Available</FormLabel>
+            <FormLabel>
+              Seats Available
+              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
+                How many passengers can you take?
+              </Box>
+            </FormLabel>
             <HStack spacing={4}>
               {[1, 2, 3, 4].map((seats) => (
                 <IconButton
@@ -131,28 +147,36 @@ export default function OfferRidePage() {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+            <FormLabel htmlFor="phoneNumber">
+              Phone Number
+              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
+                Passengers may choose to text/call you
+              </Box>
+            </FormLabel>
             <Input
               type="tel"
               id="phoneNumber"
               {...register('phoneNumber', {
                 required: true,
+                setValueAs: (value) => value.replace(/\D/g, ''),
                 pattern: {
                   value: /^\d{10}$/,
                   message: 'Please enter a 10-digit phone number',
                 },
               })}
-              placeholder="1234567890"
+              placeholder="2158123456"
             />
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="message">Message for Riders</FormLabel>
+            <FormLabel htmlFor="message">
+              Additional Information for Riders
+            </FormLabel>
             <Textarea
               id="message"
               {...register('message')}
               height="32"
-              placeholder="Add any additional information for potential riders..."
+              placeholder="e.g. I won't wait more than 5 minutes"
             />
           </FormControl>
 

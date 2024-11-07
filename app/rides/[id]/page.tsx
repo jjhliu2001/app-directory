@@ -17,7 +17,12 @@ import {
   Text,
   VStack,
   useToast,
+  HStack,
+  Icon,
+  Flex,
 } from '@chakra-ui/react'
+import dayjs from 'dayjs'
+import { FaArrowDown, FaArrowRight } from 'react-icons/fa'
 
 export default function RidePage() {
   const params = useParams()
@@ -119,31 +124,25 @@ export default function RidePage() {
 
   return (
     <Container maxW="2xl" py={6}>
-      <Heading as="h1" size="xl" mb={6}>
-        Ride Details
-      </Heading>
-
       <Box bg="white" p={6} borderRadius="lg" boxShadow="base">
         <VStack spacing={4} align="stretch">
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Meeting Point
+          <Flex flexDir="column" gap={4} align="center" justify="center">
+            <Text fontSize="lg" fontWeight="bold">
+              {ride.meetingPoint}
             </Text>
-            <Text mt={1}>{ride.meetingPoint}</Text>
-          </Box>
+            <Icon as={FaArrowDown} w={6} h={6} color="blue.500" />
+            <Text fontSize="lg" fontWeight="bold">
+              {ride.destination}
+            </Text>
+          </Flex>
 
           <Box>
             <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Destination
+              Departing at
             </Text>
-            <Text mt={1}>{ride.destination}</Text>
-          </Box>
-
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Departure Time
+            <Text mt={1}>
+              {dayjs(ride.departureTime).format('DD MMM h:mm A')}
             </Text>
-            <Text mt={1}>{new Date(ride.departureTime).toLocaleString()}</Text>
           </Box>
 
           <Box>
@@ -153,6 +152,13 @@ export default function RidePage() {
             <Text mt={1}>
               {seatsRemaining} available out of {ride.capacity} total
             </Text>
+          </Box>
+
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Driver&apos;s Phone Number
+            </Text>
+            <Text mt={1}>📱 {ride.userPhoneNumber}</Text>
           </Box>
 
           {ride.message && (
@@ -181,9 +187,6 @@ export default function RidePage() {
                     alignItems="center"
                   >
                     <Text>📱 {booking.userPhoneNumber}</Text>
-                    <Text fontSize="sm" color="gray.500">
-                      Booked {new Date(booking.createdAt).toLocaleDateString()}
-                    </Text>
                   </ListItem>
                 ))}
               </List>
