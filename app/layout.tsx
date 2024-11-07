@@ -1,26 +1,26 @@
-import '#/styles/globals.css';
-import { AddressBar } from '#/ui/address-bar';
-import Byline from '#/ui/byline';
-import { GlobalNav } from '#/ui/global-nav';
-import { Metadata } from 'next';
+import "#/styles/globals.css";
+import { AddressBar } from "#/ui/address-bar";
+import Byline from "#/ui/byline";
+import { GlobalNav } from "#/ui/global-nav";
+import { Metadata } from "next";
 
 // TODO - Jen
 export const metadata: Metadata = {
   title: {
-    default: 'Next.js App Router',
-    template: '%s | Next.js App Router',
+    default: "Next.js App Router",
+    template: "%s | Next.js App Router",
   },
-  metadataBase: new URL('https://app-router.vercel.app'),
+  metadataBase: new URL("https://app-router.vercel.app"),
   description:
-    'A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.',
+    "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
   openGraph: {
-    title: 'Next.js App Router Playground',
+    title: "Next.js App Router Playground",
     description:
-      'A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.',
+      "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
     images: [`/api/og?title=Next.js App Router`],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
   },
 };
 
@@ -30,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="[color-scheme:dark]">
-      <body className="overflow-y-scroll bg-gray-1100 bg-[url('/grid.svg')] pb-36">
+    <html lang="en" className="[color-scheme:light]">
+      <body className="overflow-y-scroll bg-gray-50">
         {/* <GlobalNav />
 
         <div className="lg:pl-72">
@@ -42,8 +42,10 @@ export default function RootLayout({
               </div>
             </div> */}
 
-        <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-          <div className="rounded-lg bg-black p-3.5 lg:p-6">{children}</div>
+        <div className="rounded-lg border border-gray-200 shadow-md">
+          <div className="rounded-lg bg-white p-3.5 lg:p-6 text-gray-900">
+            {children}
+          </div>
         </div>
         {/* <Byline /> */}
         {/* </div>
