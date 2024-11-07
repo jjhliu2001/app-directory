@@ -122,6 +122,14 @@ export default function RidePage() {
 
   const seatsRemaining = ride.capacity - (ride.bookings?.length || 0)
 
+  const formatPhoneNumber = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, '')
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
+    }
+    return phone
+  }
+
   return (
     <Container maxW="2xl" py={6}>
       <Box bg="white" p={6} borderRadius="lg" boxShadow="base">
@@ -147,18 +155,9 @@ export default function RidePage() {
 
           <Box>
             <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Seats
-            </Text>
-            <Text mt={1}>
-              {seatsRemaining} available out of {ride.capacity} total
-            </Text>
-          </Box>
-
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
               Driver&apos;s Phone Number
             </Text>
-            <Text mt={1}>📱 {ride.userPhoneNumber}</Text>
+            <Text mt={1}>📱 {formatPhoneNumber(ride.userPhoneNumber)}</Text>
           </Box>
 
           {ride.message && (
@@ -171,9 +170,18 @@ export default function RidePage() {
           )}
 
           <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Current Bookings
-            </Text>
+            <Flex justify="space-between" align="center">
+              <Text fontSize="sm" fontWeight="medium" color="gray.500">
+                Current Bookings
+              </Text>
+              <Text
+                fontSize="sm"
+                fontWeight="medium"
+                color={seatsRemaining > 0 ? 'green.500' : 'red.500'}
+              >
+                {seatsRemaining} of {ride.capacity} seats available
+              </Text>
+            </Flex>
             {ride.bookings && ride.bookings.length > 0 ? (
               <List spacing={2} mt={2}>
                 {ride.bookings.map((booking) => (
@@ -186,7 +194,7 @@ export default function RidePage() {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Text>📱 {booking.userPhoneNumber}</Text>
+                    <Text>📱 {formatPhoneNumber(booking.userPhoneNumber)}</Text>
                   </ListItem>
                 ))}
               </List>
@@ -206,8 +214,11 @@ export default function RidePage() {
                     type="tel"
                     id="phoneNumber"
                     value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="1234567890"
+                    onChange={(e) => {
+                      const cleaned = e.target.value.replace(/\D/g, '')
+                      setPhoneNumber(cleaned)
+                    }}
+                    placeholder="(215) 555-0123"
                     pattern="[0-9]{10}"
                     required
                   />

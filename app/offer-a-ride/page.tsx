@@ -158,13 +158,21 @@ export default function OfferRidePage() {
               id="phoneNumber"
               {...register('phoneNumber', {
                 required: true,
-                setValueAs: (value) => value.replace(/\D/g, ''),
+                setValueAs: (value) => {
+                  // Remove all non-digits
+                  const cleaned = value.replace(/\D/g, '')
+                  // Format as (XXX) XXX-XXXX
+                  if (cleaned.length >= 10) {
+                    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`
+                  }
+                  return cleaned
+                },
                 pattern: {
-                  value: /^\d{10}$/,
-                  message: 'Please enter a 10-digit phone number',
+                  value: /^\(\d{3}\) \d{3}-\d{4}$/,
+                  message: 'Please enter a valid phone number',
                 },
               })}
-              placeholder="2158123456"
+              placeholder="(215) 812-3456"
             />
           </FormControl>
 
