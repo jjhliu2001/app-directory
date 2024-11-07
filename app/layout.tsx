@@ -3,6 +3,7 @@ import { AddressBar } from "#/ui/address-bar";
 import Byline from "#/ui/byline";
 import { GlobalNav } from "#/ui/global-nav";
 import { Metadata } from "next";
+import ThemeToggle from "../components/ThemeToggle";
 
 // TODO - Jen
 export const metadata: Metadata = {
@@ -30,26 +31,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="[color-scheme:light]">
-      <body className="overflow-y-scroll bg-gray-50">
-        {/* <GlobalNav />
-
+    <html lang="en" className="[color-scheme:light] dark:[color-scheme:dark]">
+      <body className="overflow-y-scroll bg-gray-50 pb-36 dark:bg-gray-900">
+        <div className="fixed right-4 top-4 z-50">
+          <ThemeToggle />
+        </div>
         <div className="lg:pl-72">
           <div className="mx-auto max-w-4xl space-y-8 px-2 pt-20 lg:px-8 lg:py-8">
-            <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-              <div className="rounded-lg bg-black">
-                <AddressBar />
+            <div className="rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 p-px shadow-lg shadow-primary-500/20">
+              <div className="rounded-lg bg-white p-3.5 dark:bg-gray-800 lg:p-6">
+                {children}
               </div>
-            </div> */}
-
-        <div className="rounded-lg border border-gray-200 shadow-md">
-          <div className="rounded-lg bg-white p-3.5 lg:p-6 text-gray-900">
-            {children}
+            </div>
           </div>
         </div>
-        {/* <Byline /> */}
-        {/* </div>
-        </div>  */}
       </body>
     </html>
   );
