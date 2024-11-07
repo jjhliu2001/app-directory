@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import '@/app/globals.css'
+import { Providers } from './providers'
 
 // TODO - Jen
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-4xl space-y-8 px-2 pt-20 lg:px-8 lg:py-8">
             <div className="rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 p-px shadow-lg shadow-primary-500/20">
               <div className="rounded-lg bg-white p-3.5 dark:bg-gray-800 lg:p-6">
-                {children}
+                <Providers>{children}</Providers>
               </div>
             </div>
           </div>

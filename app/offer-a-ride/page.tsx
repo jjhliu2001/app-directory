@@ -3,6 +3,19 @@
 import { useForm } from 'react-hook-form'
 import { FaUser } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Textarea,
+  HStack,
+  IconButton,
+} from '@chakra-ui/react'
 
 type FormData = {
   meetingPoint: string
@@ -61,108 +74,93 @@ export default function OfferRidePage() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <h1 className="mb-6 text-2xl font-bold">Offer a Ride</h1>
+    <Container maxW="2xl" py={6}>
+      <Heading as="h1" size="xl" mb={6}>
+        Offer a Ride
+      </Heading>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label htmlFor="meetingPoint" className="mb-1 block">
-            Meeting Point
-          </label>
-          <input
-            type="text"
-            id="meetingPoint"
-            {...register('meetingPoint', { required: true })}
-            className="w-full rounded border p-2"
-          />
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
+          <FormControl>
+            <FormLabel htmlFor="meetingPoint">Meeting Point</FormLabel>
+            <Input
+              id="meetingPoint"
+              {...register('meetingPoint', { required: true })}
+            />
+          </FormControl>
 
-        <div>
-          <label htmlFor="destination" className="mb-1 block">
-            Destination
-          </label>
-          <input
-            type="text"
-            id="destination"
-            {...register('destination', { required: true })}
-            className="w-full rounded border p-2"
-          />
-        </div>
+          <FormControl>
+            <FormLabel htmlFor="destination">Destination</FormLabel>
+            <Input
+              id="destination"
+              {...register('destination', { required: true })}
+            />
+          </FormControl>
 
-        <div>
-          <label htmlFor="departureTime" className="mb-1 block">
-            Departure Time
-          </label>
-          <input
-            type="datetime-local"
-            id="departureTime"
-            {...register('departureTime', { required: true })}
-            className="w-full rounded border p-2"
-          />
-        </div>
+          <FormControl>
+            <FormLabel htmlFor="departureTime">Departure Time</FormLabel>
+            <Input
+              type="datetime-local"
+              id="departureTime"
+              {...register('departureTime', { required: true })}
+            />
+          </FormControl>
 
-        <div>
-          <label className="mb-1 block">Seats Available</label>
-          <div className="flex gap-4">
-            {[1, 2, 3, 4].map((seats) => (
-              <button
-                key={seats}
-                type="button"
-                onClick={() => setValue('capacity', seats)}
-                className={`flex items-center justify-center rounded-lg border p-3 ${
-                  capacity === seats
-                    ? 'border-blue-500 bg-blue-500 text-white'
-                    : 'border-gray-300 bg-white text-gray-700 hover:border-blue-500'
-                }`}
-              >
-                <div className="flex items-center">
-                  {[...Array(seats)].map((_, i) => (
-                    <FaUser key={i} className="mx-0.5" />
-                  ))}
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
+          <FormControl>
+            <FormLabel>Seats Available</FormLabel>
+            <HStack spacing={4}>
+              {[1, 2, 3, 4].map((seats) => (
+                <IconButton
+                  key={seats}
+                  aria-label={`${seats} seats`}
+                  icon={
+                    <HStack spacing={1}>
+                      {[...Array(seats)].map((_, i) => (
+                        <FaUser key={i} />
+                      ))}
+                    </HStack>
+                  }
+                  onClick={() => setValue('capacity', seats)}
+                  colorScheme={capacity === seats ? 'blue' : 'gray'}
+                  variant={capacity === seats ? 'solid' : 'outline'}
+                  size="lg"
+                  p={6}
+                />
+              ))}
+            </HStack>
+          </FormControl>
 
-        <div>
-          <label htmlFor="phoneNumber" className="mb-1 block">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            {...register('phoneNumber', {
-              required: true,
-              pattern: {
-                value: /^\d{10}$/,
-                message: 'Please enter a 10-digit phone number',
-              },
-            })}
-            className="w-full rounded border p-2"
-            placeholder="1234567890"
-          />
-        </div>
+          <FormControl>
+            <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+            <Input
+              type="tel"
+              id="phoneNumber"
+              {...register('phoneNumber', {
+                required: true,
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: 'Please enter a 10-digit phone number',
+                },
+              })}
+              placeholder="1234567890"
+            />
+          </FormControl>
 
-        <div>
-          <label htmlFor="message" className="mb-1 block">
-            Message for Riders
-          </label>
-          <textarea
-            id="message"
-            {...register('message')}
-            className="h-32 w-full rounded border p-2"
-            placeholder="Add any additional information for potential riders..."
-          />
-        </div>
+          <FormControl>
+            <FormLabel htmlFor="message">Message for Riders</FormLabel>
+            <Textarea
+              id="message"
+              {...register('message')}
+              height="32"
+              placeholder="Add any additional information for potential riders..."
+            />
+          </FormControl>
 
-        <button
-          type="submit"
-          className="w-full rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
-        >
-          Offer Ride
-        </button>
+          <Button type="submit" colorScheme="blue" size="lg">
+            Offer Ride
+          </Button>
+        </Stack>
       </form>
-    </main>
+    </Container>
   )
 }

@@ -3,10 +3,26 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Ride, Booking } from '@prisma/client'
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  List,
+  ListItem,
+  Stack,
+  Text,
+  VStack,
+  useToast,
+} from '@chakra-ui/react'
 
 export default function RidePage() {
   const params = useParams()
   const router = useRouter()
+  const toast = useToast()
   const [ride, setRide] = useState<(Ride & { bookings: Booking[] }) | null>(
     null,
   )
@@ -52,140 +68,181 @@ export default function RidePage() {
         throw new Error('Failed to book ride')
       }
 
-      // Reset form and hide it
       setShowPhoneForm(false)
       setPhoneNumber('')
-
-      // Refresh the ride data to get updated seats
       router.refresh()
+
+      toast({
+        title: 'Ride booked successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to book ride')
+      toast({
+        title: 'Error',
+        description: err instanceof Error ? err.message : 'Failed to book ride',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
     } finally {
       setBookingInProgress(false)
     }
   }
 
   if (loading) {
-    return <div className="p-8 text-center">Loading...</div>
+    return (
+      <Box p={8} textAlign="center">
+        Loading...
+      </Box>
+    )
   }
 
   if (error) {
-    return <div className="p-8 text-center text-red-500">{error}</div>
+    return (
+      <Box p={8} textAlign="center" color="red.500">
+        {error}
+      </Box>
+    )
   }
 
   if (!ride) {
-    return <div className="p-8 text-center">Ride not found</div>
+    return (
+      <Box p={8} textAlign="center">
+        Ride not found
+      </Box>
+    )
   }
 
   const seatsRemaining = ride.capacity - (ride.bookings?.length || 0)
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <h1 className="mb-6 text-2xl font-bold">Ride Details</h1>
+    <Container maxW="2xl" py={6}>
+      <Heading as="h1" size="xl" mb={6}>
+        Ride Details
+      </Heading>
 
-      <div className="space-y-4 rounded-lg bg-white p-6 shadow">
-        <div>
-          <h2 className="text-sm font-medium text-gray-500">Meeting Point</h2>
-          <p className="mt-1">{ride.meetingPoint}</p>
-        </div>
+      <Box bg="white" p={6} borderRadius="lg" boxShadow="base">
+        <VStack spacing={4} align="stretch">
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Meeting Point
+            </Text>
+            <Text mt={1}>{ride.meetingPoint}</Text>
+          </Box>
 
-        <div>
-          <h2 className="text-sm font-medium text-gray-500">Destination</h2>
-          <p className="mt-1">{ride.destination}</p>
-        </div>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Destination
+            </Text>
+            <Text mt={1}>{ride.destination}</Text>
+          </Box>
 
-        <div>
-          <h2 className="text-sm font-medium text-gray-500">Departure Time</h2>
-          <p className="mt-1">
-            {new Date(ride.departureTime).toLocaleString()}
-          </p>
-        </div>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Departure Time
+            </Text>
+            <Text mt={1}>{new Date(ride.departureTime).toLocaleString()}</Text>
+          </Box>
 
-        <div>
-          <h2 className="text-sm font-medium text-gray-500">Seats</h2>
-          <p className="mt-1">
-            {seatsRemaining} available out of {ride.capacity} total
-          </p>
-        </div>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Seats
+            </Text>
+            <Text mt={1}>
+              {seatsRemaining} available out of {ride.capacity} total
+            </Text>
+          </Box>
 
-        {ride.message && (
-          <div>
-            <h2 className="text-sm font-medium text-gray-500">Message</h2>
-            <p className="mt-1">{ride.message}</p>
-          </div>
-        )}
-
-        <div>
-          <h2 className="text-sm font-medium text-gray-500">
-            Current Bookings
-          </h2>
-          {ride.bookings && ride.bookings.length > 0 ? (
-            <ul className="mt-2 space-y-2">
-              {ride.bookings.map((booking) => (
-                <li
-                  key={booking.id}
-                  className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
-                >
-                  <span>📱 {booking.userPhoneNumber}</span>
-                  <span className="text-sm text-gray-500">
-                    Booked {new Date(booking.createdAt).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-1 text-gray-500">No bookings yet</p>
+          {ride.message && (
+            <Box>
+              <Text fontSize="sm" fontWeight="medium" color="gray.500">
+                Message
+              </Text>
+              <Text mt={1}>{ride.message}</Text>
+            </Box>
           )}
-        </div>
 
-        <div className="pt-4">
-          {showPhoneForm ? (
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="mb-1 block text-sm font-medium text-gray-700"
-                >
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="1234567890"
-                  className="w-full rounded border p-2"
-                  pattern="[0-9]{10}"
-                  required
-                />
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleBookRide}
-                  disabled={bookingInProgress || !phoneNumber.match(/^\d{10}$/)}
-                  className="flex-1 rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-                >
-                  {bookingInProgress ? 'Booking...' : 'Book'}
-                </button>
-                <button
-                  onClick={() => setShowPhoneForm(false)}
-                  className="rounded-md border border-gray-300 px-4 py-2 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowPhoneForm(true)}
-              disabled={seatsRemaining < 1}
-              className="w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-            >
-              {seatsRemaining < 1 ? 'No Seats Available' : 'Book This Ride'}
-            </button>
-          )}
-        </div>
-      </div>
-    </main>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+              Current Bookings
+            </Text>
+            {ride.bookings && ride.bookings.length > 0 ? (
+              <List spacing={2} mt={2}>
+                {ride.bookings.map((booking) => (
+                  <ListItem
+                    key={booking.id}
+                    p={3}
+                    bg="gray.50"
+                    borderRadius="lg"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Text>📱 {booking.userPhoneNumber}</Text>
+                    <Text fontSize="sm" color="gray.500">
+                      Booked {new Date(booking.createdAt).toLocaleDateString()}
+                    </Text>
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Text mt={1} color="gray.500">
+                No bookings yet
+              </Text>
+            )}
+          </Box>
+
+          <Box pt={4}>
+            {showPhoneForm ? (
+              <Stack spacing={4}>
+                <FormControl>
+                  <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+                  <Input
+                    type="tel"
+                    id="phoneNumber"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="1234567890"
+                    pattern="[0-9]{10}"
+                    required
+                  />
+                </FormControl>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    onClick={handleBookRide}
+                    isDisabled={
+                      bookingInProgress || !phoneNumber.match(/^\d{10}$/)
+                    }
+                    colorScheme="blue"
+                    flex={1}
+                    isLoading={bookingInProgress}
+                    loadingText="Booking..."
+                  >
+                    Book
+                  </Button>
+                  <Button
+                    onClick={() => setShowPhoneForm(false)}
+                    variant="outline"
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            ) : (
+              <Button
+                onClick={() => setShowPhoneForm(true)}
+                isDisabled={seatsRemaining < 1}
+                colorScheme="blue"
+                width="100%"
+              >
+                {seatsRemaining < 1 ? 'No Seats Available' : 'Book This Ride'}
+              </Button>
+            )}
+          </Box>
+        </VStack>
+      </Box>
+    </Container>
   )
 }

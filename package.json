@@ -20,6 +20,7 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@chakra-ui/react": "2.10.3",
     "@heroicons/react": "^2.0.0",
     "@prisma/client": "^5.0.0",
     "clsx": "^2.0.0",
