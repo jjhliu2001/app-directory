@@ -25,8 +25,35 @@ export default function OfferRidePage() {
   const seatsAvailable = watch("seatsAvailable");
 
   const onSubmit = async (data: FormData) => {
-    // TODO: Handle form submission
-    console.log(data);
+    try {
+      // Convert datetime-local string to epoch seconds
+      const departureTimeEpoch = new Date(data.departureTime).valueOf();
+
+      const response = await fetch("/api/rides", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          departureTime: departureTimeEpoch,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create ride");
+      }
+
+      const ride = await response.json();
+      console.log("Ride created:", ride);
+
+      // TODO: Add success message and redirect
+      // router.push('/rides/' + ride.id);
+    } catch (error) {
+      console.error("Error creating ride:", error);
+      // TODO: Show error message to user
+    }
   };
 
   return (

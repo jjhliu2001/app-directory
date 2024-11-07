@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Ride {
+  id             String   @id @default(uuid())
+  meetingPoint   String
+  destination    String
+  departureTime  DateTime
+  seatsAvailable Int
+  message        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         String   // Will link to User model when auth is added
+}
