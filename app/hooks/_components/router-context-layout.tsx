@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { Boundary } from '@/ui/boundary';
+import { Boundary } from '@/ui/boundary'
 import {
   useSelectedLayoutSegment,
   useSelectedLayoutSegments,
-} from 'next/navigation';
+} from 'next/navigation'
 
 export function LayoutHooks() {
-  const selectedLayoutSegment = useSelectedLayoutSegment();
-  const selectedLayoutSegments = useSelectedLayoutSegments();
+  const selectedLayoutSegment = useSelectedLayoutSegment()
+  const selectedLayoutSegments = useSelectedLayoutSegments()
 
   return selectedLayoutSegment ? (
     <Boundary labels={['Client Component Hooks']} size="small">
@@ -25,5 +25,5 @@ export function LayoutHooks() {
         </pre>
       </div>
     </Boundary>
-  ) : null;
+  ) : null
 }

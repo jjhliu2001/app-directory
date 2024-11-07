@@ -1,13 +1,13 @@
-import { getCategory } from '@/app/api/categories/getCategories';
-import { Boundary } from '@/ui/boundary';
-import { notFound } from 'next/navigation';
-import { Counter } from '../../context-click-counter';
+import { getCategory } from '@/app/api/categories/getCategories'
+import { Boundary } from '@/ui/boundary'
+import { notFound } from 'next/navigation'
+import { Counter } from '../../context-click-counter'
 
 export default async function Page(props: {
-  params: Promise<{ categorySlug: string; subCategorySlug: string }>;
+  params: Promise<{ categorySlug: string; subCategorySlug: string }>
 }) {
-  const params = await props.params;
-  const category = await getCategory({ slug: params.subCategorySlug });
+  const params = await props.params
+  const category = await getCategory({ slug: params.subCategorySlug })
 
   return (
     <Boundary labels={['Page [Server Component]']} animateRerendering={false}>
@@ -19,5 +19,5 @@ export default async function Page(props: {
         <Counter />
       </div>
     </Boundary>
-  );
+  )
 }

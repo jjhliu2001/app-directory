@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useCounter } from './counter-context';
-import React from 'react';
-import { Boundary } from '@/ui/boundary';
+import { useCounter } from './counter-context'
+import React from 'react'
+import { Boundary } from '@/ui/boundary'
 
 const ContextClickCounter = () => {
-  const [count, setCount] = useCounter();
+  const [count, setCount] = useCounter()
 
   return (
     <Boundary
@@ -21,11 +21,11 @@ const ContextClickCounter = () => {
         {count} Clicks
       </button>
     </Boundary>
-  );
-};
+  )
+}
 
 export const Counter = () => {
-  const [count] = useCounter();
+  const [count] = useCounter()
 
   return (
     <Boundary
@@ -38,7 +38,7 @@ export const Counter = () => {
         <span className="tabular-nums">{count}</span> Clicks
       </div>
     </Boundary>
-  );
-};
+  )
+}
 
-export default ContextClickCounter;
+export default ContextClickCounter

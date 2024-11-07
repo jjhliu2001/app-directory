@@ -1,11 +1,11 @@
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Fragment } from 'react';
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { Fragment } from 'react'
 
 export function Breadcrumbs({
   items,
 }: {
-  items: { text: string; href: string }[];
+  items: { text: string; href: string }[]
 }) {
   return (
     <div className="flex gap-1.5 text-sm">
@@ -24,8 +24,8 @@ export function Breadcrumbs({
               {item.text}
             </Link>
           </Fragment>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

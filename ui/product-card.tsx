@@ -1,22 +1,22 @@
-import { Product } from '@/app/api/products/product';
-import { ProductBestSeller } from '@/ui/product-best-seller';
-import { ProductEstimatedArrival } from '@/ui/product-estimated-arrival';
-import { ProductLowStockWarning } from '@/ui/product-low-stock-warning';
-import { ProductPrice } from '@/ui/product-price';
-import { ProductRating } from '@/ui/product-rating';
-import { ProductUsedPrice } from '@/ui/product-used-price';
-import { dinero, type DineroSnapshot } from 'dinero.js';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Product } from '@/app/api/products/product'
+import { ProductBestSeller } from '@/ui/product-best-seller'
+import { ProductEstimatedArrival } from '@/ui/product-estimated-arrival'
+import { ProductLowStockWarning } from '@/ui/product-low-stock-warning'
+import { ProductPrice } from '@/ui/product-price'
+import { ProductRating } from '@/ui/product-rating'
+import { ProductUsedPrice } from '@/ui/product-used-price'
+import { dinero, type DineroSnapshot } from 'dinero.js'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const ProductCard = ({
   product,
   href,
 }: {
-  product: Product;
-  href: string;
+  product: Product
+  href: string
 }) => {
-  const price = dinero(product.price as DineroSnapshot<number>);
+  const price = dinero(product.price as DineroSnapshot<number>)
 
   return (
     <Link href={href} className="group block">
@@ -59,5 +59,5 @@ export const ProductCard = ({
         ) : null}
       </div>
     </Link>
-  );
-};
+  )
+}

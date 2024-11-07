@@ -1,21 +1,21 @@
-import type { NextRequest } from 'next/server';
-import { ImageResponse } from 'next/og';
-import type { ReactElement } from 'react';
+import type { NextRequest } from 'next/server'
+import { ImageResponse } from 'next/og'
+import type { ReactElement } from 'react'
 
-export const runtime = 'edge';
+export const runtime = 'edge'
 
 const interSemiBold = fetch(
   new URL('./Inter-SemiBold.ttf', import.meta.url),
-).then((res) => res.arrayBuffer());
+).then((res) => res.arrayBuffer())
 
 export async function GET(req: NextRequest): Promise<Response | ImageResponse> {
   try {
-    const { searchParams } = new URL(req.url);
-    const isLight = req.headers.get('Sec-CH-Prefers-Color-Scheme') === 'light';
+    const { searchParams } = new URL(req.url)
+    const isLight = req.headers.get('Sec-CH-Prefers-Color-Scheme') === 'light'
 
     const title = searchParams.has('title')
       ? searchParams.get('title')
-      : 'App Router Playground';
+      : 'App Router Playground'
 
     return new ImageResponse(
       (
@@ -62,15 +62,15 @@ export async function GET(req: NextRequest): Promise<Response | ImageResponse> {
           },
         ],
       },
-    );
+    )
   } catch (e) {
-    if (!(e instanceof Error)) throw e;
+    if (!(e instanceof Error)) throw e
 
     // eslint-disable-next-line no-console
-    console.log(e.message);
+    console.log(e.message)
     return new Response(`Failed to generate the image`, {
       status: 500,
-    });
+    })
   }
 }
 
@@ -376,7 +376,7 @@ function LightSvg(): ReactElement {
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }
 
 function DarkSvg(): ReactElement {
@@ -652,5 +652,5 @@ function DarkSvg(): ReactElement {
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }

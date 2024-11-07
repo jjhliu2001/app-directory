@@ -1,11 +1,11 @@
-import { getCategories } from '@/app/api/categories/getCategories';
-import { Boundary } from '@/ui/boundary';
-import { TabGroup } from '@/ui/tab-group';
-import { CounterProvider } from 'app/context/counter-context';
-import React from 'react';
-import ContextClickCounter from './context-click-counter';
+import { getCategories } from '@/app/api/categories/getCategories'
+import { Boundary } from '@/ui/boundary'
+import { TabGroup } from '@/ui/tab-group'
+import { CounterProvider } from 'app/context/counter-context'
+import React from 'react'
+import ContextClickCounter from './context-click-counter'
 
-const title = 'Client Context';
+const title = 'Client Context'
 
 export const metadata = {
   title,
@@ -13,14 +13,14 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 export default async function Layout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const categories = await getCategories();
+  const categories = await getCategories()
   return (
     <Boundary
       labels={['Server Component Boundary']}
@@ -62,5 +62,5 @@ export default async function Layout({
         </CounterProvider>
       </Boundary>
     </Boundary>
-  );
+  )
 }

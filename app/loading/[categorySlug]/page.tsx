@@ -1,11 +1,11 @@
-import type { Category } from '@/app/api/categories/category';
-import { SkeletonCard } from '@/ui/skeleton-card';
-import { notFound } from 'next/navigation';
+import type { Category } from '@/app/api/categories/category'
+import { SkeletonCard } from '@/ui/skeleton-card'
+import { notFound } from 'next/navigation'
 
 export default async function Page(props: {
-  params: Promise<{ categorySlug: string }>;
+  params: Promise<{ categorySlug: string }>
 }) {
-  const params = await props.params;
+  const params = await props.params
   const res = await fetch(
     // We intentionally delay the response to simulate a slow data
     // request that would benefit from `loading.js`
@@ -15,18 +15,18 @@ export default async function Page(props: {
       // `loading.js`
       cache: 'no-cache',
     },
-  );
+  )
 
   if (!res.ok) {
     // Render the closest `error.js` Error Boundary
-    throw new Error('Something went wrong!');
+    throw new Error('Something went wrong!')
   }
 
-  const category = (await res.json()) as Category;
+  const category = (await res.json()) as Category
 
   if (!category) {
     // Render the closest `not-found.js` Error Boundary
-    notFound();
+    notFound()
   }
 
   return (
@@ -39,5 +39,5 @@ export default async function Page(props: {
         ))}
       </div>
     </div>
-  );
+  )
 }

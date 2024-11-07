@@ -1,9 +1,9 @@
-import { getCategories } from '@/app/api/categories/getCategories';
-import { Boundary } from '@/ui/boundary';
-import { TabGroup } from '@/ui/tab-group';
-import React from 'react';
+import { getCategories } from '@/app/api/categories/getCategories'
+import { Boundary } from '@/ui/boundary'
+import { TabGroup } from '@/ui/tab-group'
+import React from 'react'
 
-const title = 'Breadcrumbs with Parallel Routes';
+const title = 'Breadcrumbs with Parallel Routes'
 
 export const metadata = {
   title,
@@ -11,16 +11,16 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 export default async function Layout({
   children,
   slot,
 }: {
-  children: React.ReactNode;
-  slot: React.ReactNode;
+  children: React.ReactNode
+  slot: React.ReactNode
 }) {
-  const categories = await getCategories();
+  const categories = await getCategories()
 
   return (
     <div className="space-y-9">
@@ -43,5 +43,5 @@ export default async function Layout({
 
       <Boundary>{children}</Boundary>
     </div>
-  );
+  )
 }

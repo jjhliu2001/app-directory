@@ -1,116 +1,116 @@
-"use client";
+'use client'
 
-import { useForm } from "react-hook-form";
-import { FaUser } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useForm } from 'react-hook-form'
+import { FaUser } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 type FormData = {
-  meetingPoint: string;
-  destination: string;
-  departureTime: string;
-  seatsAvailable: number;
-  message: string;
-};
+  meetingPoint: string
+  destination: string
+  departureTime: string
+  seatsAvailable: number
+  message: string
+}
 
 export default function OfferRidePage() {
-  const router = useRouter();
+  const router = useRouter()
   const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
-      meetingPoint: "",
-      destination: "",
-      departureTime: "",
+      meetingPoint: '',
+      destination: '',
+      departureTime: '',
       seatsAvailable: 1,
-      message: "",
+      message: '',
     },
-  });
+  })
 
-  const seatsAvailable = watch("seatsAvailable");
+  const seatsAvailable = watch('seatsAvailable')
 
   const onSubmit = async (data: FormData) => {
     try {
       // Convert datetime-local string to epoch seconds
-      const departureTimeEpoch = new Date(data.departureTime).valueOf();
+      const departureTimeEpoch = new Date(data.departureTime).valueOf()
 
-      const response = await fetch("/api/rides", {
-        method: "POST",
+      const response = await fetch('/api/rides', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           ...data,
           departureTime: departureTimeEpoch,
         }),
-      });
+      })
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to create ride");
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to create ride')
       }
 
-      const ride = await response.json();
-      console.log("Ride created:", ride);
+      const ride = await response.json()
+      console.log('Ride created:', ride)
 
       // Redirect to the ride details page
-      router.push(`/rides/${ride.id}`);
+      router.push(`/rides/${ride.id}`)
     } catch (error) {
-      console.error("Error creating ride:", error);
+      console.error('Error creating ride:', error)
       // TODO: Show error message to user
     }
-  };
+  }
 
   return (
-    <main className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Offer a Ride</h1>
+    <main className="mx-auto max-w-2xl p-6">
+      <h1 className="mb-6 text-2xl font-bold">Offer a Ride</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="meetingPoint" className="block mb-1">
+          <label htmlFor="meetingPoint" className="mb-1 block">
             Meeting Point
           </label>
           <input
             type="text"
             id="meetingPoint"
-            {...register("meetingPoint", { required: true })}
-            className="w-full p-2 border rounded"
+            {...register('meetingPoint', { required: true })}
+            className="w-full rounded border p-2"
           />
         </div>
 
         <div>
-          <label htmlFor="destination" className="block mb-1">
+          <label htmlFor="destination" className="mb-1 block">
             Destination
           </label>
           <input
             type="text"
             id="destination"
-            {...register("destination", { required: true })}
-            className="w-full p-2 border rounded"
+            {...register('destination', { required: true })}
+            className="w-full rounded border p-2"
           />
         </div>
 
         <div>
-          <label htmlFor="departureTime" className="block mb-1">
+          <label htmlFor="departureTime" className="mb-1 block">
             Departure Time
           </label>
           <input
             type="datetime-local"
             id="departureTime"
-            {...register("departureTime", { required: true })}
-            className="w-full p-2 border rounded"
+            {...register('departureTime', { required: true })}
+            className="w-full rounded border p-2"
           />
         </div>
 
         <div>
-          <label className="block mb-1">Seats Available</label>
+          <label className="mb-1 block">Seats Available</label>
           <div className="flex gap-4">
             {[1, 2, 3, 4].map((seats) => (
               <button
                 key={seats}
                 type="button"
-                onClick={() => setValue("seatsAvailable", seats)}
-                className={`flex items-center justify-center p-3 border rounded-lg ${
+                onClick={() => setValue('seatsAvailable', seats)}
+                className={`flex items-center justify-center rounded-lg border p-3 ${
                   seatsAvailable === seats
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:border-blue-500"
+                    ? 'border-blue-500 bg-blue-500 text-white'
+                    : 'border-gray-300 bg-white text-gray-700 hover:border-blue-500'
                 }`}
               >
                 <div className="flex items-center">
@@ -124,24 +124,24 @@ export default function OfferRidePage() {
         </div>
 
         <div>
-          <label htmlFor="message" className="block mb-1">
+          <label htmlFor="message" className="mb-1 block">
             Message for Riders
           </label>
           <textarea
             id="message"
-            {...register("message")}
-            className="w-full p-2 border rounded h-32"
+            {...register('message')}
+            className="h-32 w-full rounded border p-2"
             placeholder="Add any additional information for potential riders..."
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+          className="w-full rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
         >
           Offer Ride
         </button>
       </form>
     </main>
-  );
+  )
 }

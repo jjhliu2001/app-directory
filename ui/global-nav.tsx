@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import { demos, type Item } from '@/lib/demos';
-import { NextLogoDark } from '@/ui/next-logo';
-import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
-import { useState } from 'react';
+import { demos, type Item } from '@/lib/demos'
+import { NextLogoDark } from '@/ui/next-logo'
+import Link from 'next/link'
+import { useSelectedLayoutSegment } from 'next/navigation'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
+import clsx from 'clsx'
+import { useState } from 'react'
 
 export function GlobalNav() {
-  const [isOpen, setIsOpen] = useState(false);
-  const close = () => setIsOpen(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const close = () => setIsOpen(false)
 
   return (
     <div className="fixed top-0 z-10 flex w-full flex-col border-b border-gray-800 bg-black lg:bottom-0 lg:z-auto lg:w-72 lg:border-b-0 lg:border-r lg:border-gray-800">
@@ -64,23 +64,23 @@ export function GlobalNav() {
                   ))}
                 </div>
               </div>
-            );
+            )
           })}
         </nav>
       </div>
     </div>
-  );
+  )
 }
 
 function GlobalNavItem({
   item,
   close,
 }: {
-  item: Item;
-  close: () => false | void;
+  item: Item
+  close: () => false | void
 }) {
-  const segment = useSelectedLayoutSegment();
-  const isActive = item.slug === segment;
+  const segment = useSelectedLayoutSegment()
+  const isActive = item.slug === segment
 
   return (
     <Link
@@ -96,5 +96,5 @@ function GlobalNavItem({
     >
       {item.name}
     </Link>
-  );
+  )
 }

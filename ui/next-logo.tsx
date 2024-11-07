@@ -50,7 +50,7 @@ export function NextLogoLight() {
         </linearGradient>
       </defs>
     </svg>
-  );
+  )
 }
 
 export function NextLogoDark() {
@@ -113,5 +113,5 @@ export function NextLogoDark() {
         </linearGradient>
       </defs>
     </svg>
-  );
+  )
 }

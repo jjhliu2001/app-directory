@@ -1,5 +1,5 @@
-import type { Review } from '@/app/api/reviews/review';
-import { ProductRating } from '@/ui/product-rating';
+import type { Review } from '@/app/api/reviews/review'
+import { ProductRating } from '@/ui/product-rating'
 
 export const ProductReviewCard = ({ review }: { review: Review }) => {
   return (
@@ -15,5 +15,5 @@ export const ProductReviewCard = ({ review }: { review: Review }) => {
 
       <div className="text-gray-400">{review.text}</div>
     </div>
-  );
-};
+  )
+}

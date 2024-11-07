@@ -1,28 +1,28 @@
-'use client';
+'use client'
 
-import type { Item } from '@/ui/tab-group';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import type { Item } from '@/ui/tab-group'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { useSelectedLayoutSegment } from 'next/navigation'
 
 export const Tab = ({
   path,
   parallelRoutesKey,
   item,
 }: {
-  path: string;
-  parallelRoutesKey?: string;
-  item: Item;
+  path: string
+  parallelRoutesKey?: string
+  item: Item
 }) => {
-  const segment = useSelectedLayoutSegment(parallelRoutesKey);
+  const segment = useSelectedLayoutSegment(parallelRoutesKey)
 
-  const href = item.slug ? path + '/' + item.slug : path;
+  const href = item.slug ? path + '/' + item.slug : path
   const isActive =
     // Example home pages e.g. `/layouts`
     (!item.slug && segment === null) ||
     segment === item.segment ||
     // Nested pages e.g. `/layouts/electronics`
-    segment === item.slug;
+    segment === item.slug
 
   return (
     <Link
@@ -35,5 +35,5 @@ export const Tab = ({
     >
       {item.text}
     </Link>
-  );
-};
+  )
+}

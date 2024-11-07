@@ -1,8 +1,8 @@
-import { Tab } from '@/ui/tab';
-import React from 'react';
-import { RandomPostTab } from './random-post-tab';
+import { Tab } from '@/ui/tab'
+import React from 'react'
+import { RandomPostTab } from './random-post-tab'
 
-const title = 'Static Data';
+const title = 'Static Data'
 
 export const metadata = {
   title,
@@ -10,7 +10,7 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,5 +24,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div>{children}</div>
     </div>
-  );
+  )
 }

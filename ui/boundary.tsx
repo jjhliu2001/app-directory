@@ -1,14 +1,14 @@
-import clsx from 'clsx';
-import React from 'react';
+import clsx from 'clsx'
+import React from 'react'
 
 const Label = ({
   children,
   animateRerendering,
   color,
 }: {
-  children: React.ReactNode;
-  animateRerendering?: boolean;
-  color?: 'default' | 'pink' | 'blue' | 'violet' | 'cyan' | 'orange';
+  children: React.ReactNode
+  animateRerendering?: boolean
+  color?: 'default' | 'pink' | 'blue' | 'violet' | 'cyan' | 'orange'
 }) => {
   return (
     <div
@@ -24,8 +24,8 @@ const Label = ({
     >
       {children}
     </div>
-  );
-};
+  )
+}
 export const Boundary = ({
   children,
   labels = ['children'],
@@ -33,11 +33,11 @@ export const Boundary = ({
   color = 'default',
   animateRerendering = true,
 }: {
-  children: React.ReactNode;
-  labels?: string[];
-  size?: 'small' | 'default';
-  color?: 'default' | 'pink' | 'blue' | 'violet' | 'cyan' | 'orange';
-  animateRerendering?: boolean;
+  children: React.ReactNode
+  labels?: string[]
+  size?: 'small' | 'default'
+  color?: 'default' | 'pink' | 'blue' | 'violet' | 'cyan' | 'orange'
+  animateRerendering?: boolean
 }) => {
   return (
     <div
@@ -50,7 +50,7 @@ export const Boundary = ({
         'border-vercel-cyan': color === 'cyan',
         'border-vercel-violet': color === 'violet',
         'border-vercel-orange': color === 'orange',
-        'animate-[rerender_1s_ease-in-out_1] text-vercel-pink':
+        'text-vercel-pink animate-[rerender_1s_ease-in-out_1]':
           animateRerendering,
       })}
     >
@@ -72,11 +72,11 @@ export const Boundary = ({
             >
               {label}
             </Label>
-          );
+          )
         })}
       </div>
 
       {children}
     </div>
-  );
-};
+  )
+}

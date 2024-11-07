@@ -1,16 +1,16 @@
-import { getCategories, getCategory } from '@/app/api/categories/getCategories';
-import { TabGroup } from '@/ui/tab-group';
+import { getCategories, getCategory } from '@/app/api/categories/getCategories'
+import { TabGroup } from '@/ui/tab-group'
 
 export default async function Layout(props: {
-  children: React.ReactNode;
-  params: Promise<{ categorySlug: string }>;
+  children: React.ReactNode
+  params: Promise<{ categorySlug: string }>
 }) {
-  const params = await props.params;
+  const params = await props.params
 
-  const { children } = props;
+  const { children } = props
 
-  const category = await getCategory({ slug: params.categorySlug });
-  const categories = await getCategories({ parent: params.categorySlug });
+  const category = await getCategory({ slug: params.categorySlug })
+  const categories = await getCategories({ parent: params.categorySlug })
 
   return (
     <div className="space-y-9">
@@ -31,5 +31,5 @@ export default async function Layout(props: {
 
       <div>{children}</div>
     </div>
-  );
+  )
 }

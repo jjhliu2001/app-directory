@@ -1,9 +1,9 @@
-import { getCategories } from '@/app/api/categories/getCategories';
-import { ClickCounter } from '@/ui/click-counter';
-import { TabGroup } from '@/ui/tab-group';
-import React from 'react';
+import { getCategories } from '@/app/api/categories/getCategories'
+import { ClickCounter } from '@/ui/click-counter'
+import { TabGroup } from '@/ui/tab-group'
+import React from 'react'
 
-const title = 'Error Handling';
+const title = 'Error Handling'
 
 export const metadata = {
   title,
@@ -11,14 +11,14 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 export default async function Layout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const categories = await getCategories();
+  const categories = await getCategories()
 
   return (
     <div className="space-y-9">
@@ -43,5 +43,5 @@ export default async function Layout({
 
       <div>{children}</div>
     </div>
-  );
+  )
 }

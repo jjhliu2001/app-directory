@@ -1,7 +1,7 @@
-import { NavLinks } from '@/app/patterns/active-links/_components/nav-links';
-import { NextLogoDark } from '@/ui/next-logo';
-import Image from 'next/image';
-import Link from 'next/link';
+import { NavLinks } from '@/app/patterns/active-links/_components/nav-links'
+import { NextLogoDark } from '@/ui/next-logo'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   // Hardcoded links or fetched from db
@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: '/patterns/active-links/profile', name: 'Profile' },
     { href: '/patterns/active-links/community', name: 'Community' },
     { href: '/patterns/active-links/settings', name: 'Settings' },
-  ];
+  ]
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,5 +28,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <main>{children}</main>
     </div>
-  );
+  )
 }

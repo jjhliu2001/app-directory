@@ -1,11 +1,11 @@
-import { NextLogoLight } from '@/ui/next-logo';
+import { NextLogoLight } from '@/ui/next-logo'
 import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
-} from '@heroicons/react/24/solid';
-import Image from 'next/image';
-import Link from 'next/link';
-import { CartCount } from './cart-count';
+} from '@heroicons/react/24/solid'
+import Image from 'next/image'
+import Link from 'next/link'
+import { CartCount } from './cart-count'
 
 export function Header() {
   return (
@@ -49,5 +49,5 @@ export function Header() {
         />
       </div>
     </div>
-  );
+  )
 }

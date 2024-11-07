@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import clsx from 'clsx'
 
 export function NavLinks({
   links,
 }: {
-  links: { href: string; name: string }[];
+  links: { href: string; name: string }[]
 }) {
   // Alternatively, you could use `useParams` or `useSelectedLayoutSegment(s)`
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <nav className="flex gap-2">
       {links.map((link) => {
-        const isActive = pathname === link.href;
+        const isActive = pathname === link.href
         return (
           <Link
             key={link.href}
@@ -28,8 +28,8 @@ export function NavLinks({
           >
             {link.name}
           </Link>
-        );
+        )
       })}
     </nav>
-  );
+  )
 }

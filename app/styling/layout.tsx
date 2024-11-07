@@ -1,7 +1,7 @@
-import { TabGroup } from '@/ui/tab-group';
-import React from 'react';
+import { TabGroup } from '@/ui/tab-group'
+import React from 'react'
 
-const title = 'Styling';
+const title = 'Styling'
 
 export const metadata = {
   title,
@@ -9,7 +9,7 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 const items = [
   {
@@ -32,7 +32,7 @@ const items = [
     text: 'Tailwind CSS',
     slug: 'tailwind',
   },
-];
+]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -48,5 +48,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       />
       <div>{children}</div>
     </div>
-  );
+  )
 }

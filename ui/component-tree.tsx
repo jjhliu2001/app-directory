@@ -1,19 +1,19 @@
-import { Boundary } from '@/ui/boundary';
-import CountUp from '@/ui/count-up';
-import clsx from 'clsx';
+import { Boundary } from '@/ui/boundary'
+import CountUp from '@/ui/count-up'
+import clsx from 'clsx'
 
 type Item = {
-  name: string;
-  type: 'server' | 'client';
-  size: number;
-  children?: Item[];
-};
+  name: string
+  type: 'server' | 'client'
+  size: number
+  children?: Item[]
+}
 
 const List = ({ items, depth }: { items: Item[]; depth: number }) => {
   return (
     <div>
       {items.map((item, i) => {
-        const isLast = i === items.length - 1;
+        const isLast = i === items.length - 1
 
         return (
           <div
@@ -76,11 +76,11 @@ const List = ({ items, depth }: { items: Item[]; depth: number }) => {
               <List items={item.children} depth={depth + 1} />
             ) : null}
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
 // Calculate the total bundle size of a specific component type (client or
 // server) in a tree
@@ -94,14 +94,14 @@ const sum = (items: Item[], componentType: Item['type']): number =>
       // add the total size of children components recursively
       (item?.children ? sum(item.children, componentType) : 0),
     0,
-  );
+  )
 
 export const ComponentTree = ({ items }: { items: Item[] }) => {
-  const clientTotal = sum(items, 'client');
-  const serverTotal = sum(items, 'server');
+  const clientTotal = sum(items, 'client')
+  const serverTotal = sum(items, 'server')
   const clientDeltaAsPercent = Math.round(
     (clientTotal / (clientTotal + serverTotal)) * 100,
-  );
+  )
 
   return (
     <Boundary animateRerendering={false} labels={['Component Tree']}>
@@ -158,5 +158,5 @@ export const ComponentTree = ({ items }: { items: Item[] }) => {
         </div>
       </div>
     </Boundary>
-  );
-};
+  )
+}

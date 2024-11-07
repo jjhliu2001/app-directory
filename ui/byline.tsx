@@ -1,4 +1,4 @@
-import { VercelLogo } from '@/ui/vercel-logo';
+import { VercelLogo } from '@/ui/vercel-logo'
 
 export default function Byline() {
   return (
@@ -34,5 +34,5 @@ export default function Byline() {
         </div>
       </div>
     </div>
-  );
+  )
 }

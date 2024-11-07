@@ -1,38 +1,38 @@
-'use client';
+'use client'
 
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
-import React from 'react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
+import clsx from 'clsx'
+import React from 'react'
 
 const MobileNavContext = React.createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
->(undefined);
+>(undefined)
 
 export function MobileNavContextProvider({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false)
   return (
     <MobileNavContext.Provider value={[isOpen, setIsOpen]}>
       {children}
     </MobileNavContext.Provider>
-  );
+  )
 }
 
 export function useMobileNavToggle() {
-  const context = React.useContext(MobileNavContext);
+  const context = React.useContext(MobileNavContext)
   if (context === undefined) {
     throw new Error(
       'useMobileNavToggle must be used within a MobileNavContextProvider',
-    );
+    )
   }
-  return context;
+  return context
 }
 
 export function MobileNavToggle({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useMobileNavToggle();
+  const [isOpen, setIsOpen] = useMobileNavToggle()
 
   return (
     <>
@@ -60,5 +60,5 @@ export function MobileNavToggle({ children }: { children: React.ReactNode }) {
         {children}
       </div>
     </>
-  );
+  )
 }

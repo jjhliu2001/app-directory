@@ -1,5 +1,5 @@
-import { StarIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
+import { StarIcon } from '@heroicons/react/24/solid'
+import clsx from 'clsx'
 
 export const ProductRating = ({ rating }: { rating: number }) => {
   return (
@@ -10,8 +10,8 @@ export const ProductRating = ({ rating }: { rating: number }) => {
             key={i}
             className={clsx('w-4', i < rating ? 'text-white' : 'text-gray-500')}
           />
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}

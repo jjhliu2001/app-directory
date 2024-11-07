@@ -1,6 +1,6 @@
-import { Boundary } from '@/ui/boundary';
-import { TabNavItem } from '@/ui/tab-nav-item';
-import React from 'react';
+import { Boundary } from '@/ui/boundary'
+import { TabNavItem } from '@/ui/tab-nav-item'
+import React from 'react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,5 +19,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div>{children}</div>
       </div>
     </Boundary>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import styles from './styles.module.css';
+import styles from './styles.module.css'
 
 const SkeletonCard = () => (
   <div className={styles.skeleton}>
@@ -9,7 +9,7 @@ const SkeletonCard = () => (
     <div className={styles['skeleton-line-one']} />
     <div className={styles['skeleton-line-two']} />
   </div>
-);
+)
 
 export default function Page() {
   return (
@@ -23,5 +23,5 @@ export default function Page() {
         <SkeletonCard />
       </div>
     </div>
-  );
+  )
 }

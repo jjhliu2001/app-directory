@@ -1,7 +1,7 @@
-import { TabGroup } from '@/ui/tab-group';
-import React from 'react';
+import { TabGroup } from '@/ui/tab-group'
+import React from 'react'
 
-const title = 'Streaming';
+const title = 'Streaming'
 
 export const metadata = {
   title,
@@ -9,12 +9,12 @@ export const metadata = {
     title,
     images: [`/api/og?title=${title}`],
   },
-};
+}
 
 export default async function Layout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <div className="space-y-9">
@@ -41,5 +41,5 @@ export default async function Layout({
 
       <div>{children}</div>
     </div>
-  );
+  )
 }

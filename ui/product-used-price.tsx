@@ -1,12 +1,12 @@
-import { Product } from '@/app/api/products/product';
-import { dinero, toUnit, up, type DineroSnapshot } from 'dinero.js';
+import { Product } from '@/app/api/products/product'
+import { dinero, toUnit, up, type DineroSnapshot } from 'dinero.js'
 
 export const ProductUsedPrice = ({
   usedPrice: usedPriceRaw,
 }: {
-  usedPrice: Product['usedPrice'];
+  usedPrice: Product['usedPrice']
 }) => {
-  const usedPrice = dinero(usedPriceRaw as DineroSnapshot<number>);
+  const usedPrice = dinero(usedPriceRaw as DineroSnapshot<number>)
 
   return (
     <div className="text-sm">
@@ -15,5 +15,5 @@ export const ProductUsedPrice = ({
         ${toUnit(usedPrice, { digits: 0, round: up })} (used)
       </div>
     </div>
-  );
-};
+  )
+}

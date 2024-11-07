@@ -1,6 +1,6 @@
-import { CurrentRoute } from '@/app/parallel-routes/_ui/current-route';
-import { Boundary } from '@/ui/boundary';
-import Link from 'next/link';
+import { CurrentRoute } from '@/app/parallel-routes/_ui/current-route'
+import { Boundary } from '@/ui/boundary'
+import Link from 'next/link'
 
 export default function Default() {
   return (
@@ -50,5 +50,5 @@ export default function Default() {
         </div>
       </div>
     </Boundary>
-  );
+  )
 }

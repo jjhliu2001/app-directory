@@ -1,13 +1,13 @@
-import type { Product } from '@/app/api/products/product';
-import { Ping } from '@/ui/ping';
-import { ProductEstimatedArrival } from '@/ui/product-estimated-arrival';
-import { ProductLowStockWarning } from '@/ui/product-low-stock-warning';
-import { ProductPrice } from '@/ui/product-price';
-import { ProductSplitPayments } from '@/ui/product-split-payments';
-import { ProductUsedPrice } from '@/ui/product-used-price';
-import { dinero, type DineroSnapshot } from 'dinero.js';
-import { Suspense } from 'react';
-import { AddToCart } from './add-to-cart';
+import type { Product } from '@/app/api/products/product'
+import { Ping } from '@/ui/ping'
+import { ProductEstimatedArrival } from '@/ui/product-estimated-arrival'
+import { ProductLowStockWarning } from '@/ui/product-low-stock-warning'
+import { ProductPrice } from '@/ui/product-price'
+import { ProductSplitPayments } from '@/ui/product-split-payments'
+import { ProductUsedPrice } from '@/ui/product-used-price'
+import { dinero, type DineroSnapshot } from 'dinero.js'
+import { Suspense } from 'react'
+import { AddToCart } from './add-to-cart'
 
 function LoadingDots() {
   return (
@@ -24,7 +24,7 @@ function LoadingDots() {
         </span>
       </span>
     </div>
-  );
+  )
 }
 
 async function UserSpecificDetails({ productId }: { productId: string }) {
@@ -35,11 +35,11 @@ async function UserSpecificDetails({ productId }: { productId: string }) {
       // streaming
       cache: 'no-store',
     },
-  );
+  )
 
-  const product = (await data.json()) as Product;
+  const product = (await data.json()) as Product
 
-  const price = dinero(product.price as DineroSnapshot<number>);
+  const price = dinero(product.price as DineroSnapshot<number>)
 
   return (
     <>
@@ -52,17 +52,17 @@ async function UserSpecificDetails({ productId }: { productId: string }) {
         <ProductLowStockWarning stock={product.stock} />
       ) : null}
     </>
-  );
+  )
 }
 
 export function Pricing({
   product,
   cartCount,
 }: {
-  product: Product;
-  cartCount: string;
+  product: Product
+  cartCount: string
 }) {
-  const price = dinero(product.price as DineroSnapshot<number>);
+  const price = dinero(product.price as DineroSnapshot<number>)
 
   return (
     <div className="space-y-4 rounded-lg bg-gray-900 p-3">
@@ -80,5 +80,5 @@ export function Pricing({
 
       <AddToCart initialCartCount={Number(cartCount)} />
     </div>
-  );
+  )
 }

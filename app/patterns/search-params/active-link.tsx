@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import clsx from 'clsx';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import clsx from 'clsx'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export default function ActiveLink({
   isActive,
   searchParams,
   children,
 }: {
-  isActive: boolean;
-  searchParams: string;
-  children: React.ReactNode;
+  isActive: boolean
+  searchParams: string
+  children: React.ReactNode
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <Link
@@ -26,5 +26,5 @@ export default function ActiveLink({
     >
       {children}
     </Link>
-  );
+  )
 }

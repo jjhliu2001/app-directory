@@ -1,12 +1,12 @@
-import { RenderingInfo } from '@/ui/rendering-info';
+import { RenderingInfo } from '@/ui/rendering-info'
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+  const params = await props.params
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${params.id}`,
     { cache: 'no-store' },
-  );
-  const data = (await res.json()) as { title: string; body: string };
+  )
+  const data = (await res.json()) as { title: string; body: string }
 
   return (
     <div className="grid grid-cols-6 gap-x-6 gap-y-3">
@@ -20,5 +20,5 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <RenderingInfo type="ssr" />
       </div>
     </div>
-  );
+  )
 }

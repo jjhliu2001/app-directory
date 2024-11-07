@@ -1,18 +1,18 @@
-import { getCategories, getCategory } from '@/app/api/categories/getCategories';
-import { Boundary } from '@/ui/boundary';
-import { TabGroup } from '@/ui/tab-group';
-import { Counter } from '../context-click-counter';
+import { getCategories, getCategory } from '@/app/api/categories/getCategories'
+import { Boundary } from '@/ui/boundary'
+import { TabGroup } from '@/ui/tab-group'
+import { Counter } from '../context-click-counter'
 
 export default async function Layout(props: {
-  children: React.ReactNode;
-  params: Promise<{ categorySlug: string }>;
+  children: React.ReactNode
+  params: Promise<{ categorySlug: string }>
 }) {
-  const params = await props.params;
+  const params = await props.params
 
-  const { children } = props;
+  const { children } = props
 
-  const category = await getCategory({ slug: params.categorySlug });
-  const categories = await getCategories({ parent: params.categorySlug });
+  const category = await getCategory({ slug: params.categorySlug })
+  const categories = await getCategories({ parent: params.categorySlug })
 
   return (
     <Boundary labels={['Layout [Server Component]']} animateRerendering={false}>
@@ -33,5 +33,5 @@ export default async function Layout(props: {
         <div>{children}</div>
       </div>
     </Boundary>
-  );
+  )
 }

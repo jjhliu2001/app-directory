@@ -1,5 +1,5 @@
-import { Boundary } from '@/ui/boundary';
-import { ExternalLink } from '@/ui/external-link';
+import { Boundary } from '@/ui/boundary'
+import { ExternalLink } from '@/ui/external-link'
 
 export default function Page() {
   return (
@@ -48,5 +48,5 @@ export default function Page() {
         </div>
       </div>
     </Boundary>
-  );
+  )
 }

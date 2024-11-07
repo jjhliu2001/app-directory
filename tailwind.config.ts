@@ -1,5 +1,5 @@
-import colors from 'tailwindcss/colors';
-import { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors'
+import { Config } from 'tailwindcss'
 
 export default {
   content: [
@@ -87,4 +87,4 @@ export default {
     },
   },
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
-} satisfies Config;
+} satisfies Config

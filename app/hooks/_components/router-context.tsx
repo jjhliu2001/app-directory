@@ -1,20 +1,20 @@
-'use client';
+'use client'
 
-import { Boundary } from '@/ui/boundary';
+import { Boundary } from '@/ui/boundary'
 import {
   useParams,
   usePathname,
   useSearchParams,
   useSelectedLayoutSegment,
   useSelectedLayoutSegments,
-} from 'next/navigation';
+} from 'next/navigation'
 
 export function HooksClient() {
-  const pathname = usePathname();
-  const params = useParams();
-  const selectedLayoutSegment = useSelectedLayoutSegment();
-  const selectedLayoutSegments = useSelectedLayoutSegments();
-  const searchParams = useSearchParams();
+  const pathname = usePathname()
+  const params = useParams()
+  const selectedLayoutSegment = useSelectedLayoutSegment()
+  const selectedLayoutSegments = useSelectedLayoutSegments()
+  const searchParams = useSearchParams()
 
   return (
     <Boundary labels={['Client Component Hooks']} size="small">
@@ -36,5 +36,5 @@ export function HooksClient() {
         </pre>
       </div>
     </Boundary>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { ExternalLink } from '@/ui/external-link';
-import Link from 'next/link';
+import { ExternalLink } from '@/ui/external-link'
+import Link from 'next/link'
 
 export default function Page() {
   return (
@@ -50,5 +50,5 @@ export default function Page() {
         </ExternalLink>
       </div>
     </div>
-  );
+  )
 }

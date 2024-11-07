@@ -1,8 +1,8 @@
-import { Boundary } from '@/ui/boundary';
-import { ExternalLink } from '@/ui/external-link';
-import { Suspense } from 'react';
-import ActiveLink from './active-link';
-import Client from './client';
+import { Boundary } from '@/ui/boundary'
+import { ExternalLink } from '@/ui/external-link'
+import { Suspense } from 'react'
+import ActiveLink from './active-link'
+import Client from './client'
 
 const options = [
   {
@@ -20,12 +20,12 @@ const options = [
     value: 'perPage',
     items: ['10', '25', '100'],
   },
-];
+]
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
 
 export default async function Page(props: { searchParams: Promise<any> }) {
-  const searchParams = await props.searchParams;
+  const searchParams = await props.searchParams
   return (
     <div className="prose prose-sm prose-invert max-w-none">
       <h1 className="text-lg font-bold">
@@ -74,11 +74,11 @@ export default async function Page(props: { searchParams: Promise<any> }) {
                           // set the first item as active if no search param is set
                           (!searchParams[option.value] && i === 0) ||
                           // otherwise check if the current item is the active one
-                          item === searchParams[option.value];
+                          item === searchParams[option.value]
 
                         // create new searchParams object for easier manipulation
-                        const params = new URLSearchParams(searchParams);
-                        params.set(option.value, item);
+                        const params = new URLSearchParams(searchParams)
+                        params.set(option.value, item)
                         return (
                           <ActiveLink
                             key={item}
@@ -87,11 +87,11 @@ export default async function Page(props: { searchParams: Promise<any> }) {
                           >
                             {item}
                           </ActiveLink>
-                        );
+                        )
                       })}
                     </div>
                   </div>
-                );
+                )
               })}
             </div>
           </Boundary>
@@ -102,5 +102,5 @@ export default async function Page(props: { searchParams: Promise<any> }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
