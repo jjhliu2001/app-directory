@@ -7,7 +7,7 @@ const createRideSchema = z.object({
   meetingPoint: z.string().min(1, 'Meeting point is required'),
   destination: z.string().min(1, 'Destination is required'),
   departureTimeMs: z.number().int().min(0, 'Invalid departure time'),
-  seatsAvailable: z.number().int().min(1, 'Must offer at least 1 seat'),
+  capacity: z.number().int().min(1, 'Must offer at least 1 seat'),
   message: z.string().optional(),
 })
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         meetingPoint: validatedData.meetingPoint,
         destination: validatedData.destination,
         departureTime: new Date(validatedData.departureTimeMs), // TODO use date library
-        seatsAvailable: validatedData.seatsAvailable,
+        capacity: validatedData.capacity,
         message: validatedData.message,
         userId: 'temp-user-id', // TODO: Get from auth session
       },

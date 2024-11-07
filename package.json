@@ -1,10 +1,13 @@
 {
   "private": true,
   "scripts": {
+    "preload": "echo ENV=${ENV:-'development'} && dotenv -c ${ENV:-'development'} --",
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
     "lint-staged": "lint-staged",
+    "migrate:create": "npm run preload -- prisma migrate dev --create-only --name",
+    "migrate": "npm run preload -- prisma migrate deploy",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start",
@@ -22,6 +25,8 @@
     "clsx": "^2.0.0",
     "date-fns": "^3.0.0",
     "dinero.js": "^2.0.0-alpha.10",
+    "dotenv": "16.4.5",
+    "dotenv-cli": "7.4.2",
     "ms": "^3.0.0-canary.1",
     "next": "^15.0.0",
     "prisma": "^5.0.0",

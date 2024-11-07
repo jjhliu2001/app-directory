@@ -89,7 +89,7 @@ export default function RidePage() {
 
         <div>
           <h2 className="text-sm font-medium text-gray-500">Seats Available</h2>
-          <p className="mt-1">{ride.seatsAvailable}</p>
+          <p className="mt-1">{ride.capacity}</p>
         </div>
 
         {ride.message && (
@@ -102,12 +102,12 @@ export default function RidePage() {
         <div className="pt-4">
           <button
             onClick={handleBookRide}
-            disabled={bookingInProgress || ride.seatsAvailable < 1}
+            disabled={bookingInProgress || ride.capacity < 1}
             className="w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-gray-400"
           >
             {bookingInProgress
               ? 'Booking...'
-              : ride.seatsAvailable < 1
+              : ride.capacity < 1
                 ? 'No Seats Available'
                 : 'Book This Ride'}
           </button>

@@ -8,7 +8,7 @@ type FormData = {
   meetingPoint: string
   destination: string
   departureTime: string
-  seatsAvailable: number
+  capacity: number
   message: string
 }
 
@@ -19,12 +19,12 @@ export default function OfferRidePage() {
       meetingPoint: '',
       destination: '',
       departureTime: '',
-      seatsAvailable: 1,
+      capacity: 1,
       message: '',
     },
   })
 
-  const seatsAvailable = watch('seatsAvailable')
+  const capacity = watch('capacity')
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -106,9 +106,9 @@ export default function OfferRidePage() {
               <button
                 key={seats}
                 type="button"
-                onClick={() => setValue('seatsAvailable', seats)}
+                onClick={() => setValue('capacity', seats)}
                 className={`flex items-center justify-center rounded-lg border p-3 ${
-                  seatsAvailable === seats
+                  capacity === seats
                     ? 'border-blue-500 bg-blue-500 text-white'
                     : 'border-gray-300 bg-white text-gray-700 hover:border-blue-500'
                 }`}

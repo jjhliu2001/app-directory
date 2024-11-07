@@ -3,7 +3,7 @@ export type Ride = {
   meetingPoint: string
   destination: string
   departureTimeMs: number
-  seatsAvailable: number
+  capacity: number
   message?: string
   createdAt: string
   userId: string // We'll need this when we add authentication
