@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   meetingPoint: string;
@@ -12,6 +13,7 @@ type FormData = {
 };
 
 export default function OfferRidePage() {
+  const router = useRouter();
   const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       meetingPoint: "",
@@ -48,8 +50,8 @@ export default function OfferRidePage() {
       const ride = await response.json();
       console.log("Ride created:", ride);
 
-      // TODO: Add success message and redirect
-      // router.push('/rides/' + ride.id);
+      // Redirect to the ride details page
+      router.push(`/rides/${ride.id}`);
     } catch (error) {
       console.error("Error creating ride:", error);
       // TODO: Show error message to user
