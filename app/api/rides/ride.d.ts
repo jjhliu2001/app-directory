@@ -6,5 +6,5 @@ export type Ride = {
   capacity: number
   message?: string
   createdAt: string
-  userId: string // We'll need this when we add authentication
+  userEmail: string
 }

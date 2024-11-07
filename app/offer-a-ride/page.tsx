@@ -10,6 +10,7 @@ type FormData = {
   departureTime: string
   capacity: number
   message: string
+  phoneNumber: string
 }
 
 export default function OfferRidePage() {
@@ -21,6 +22,7 @@ export default function OfferRidePage() {
       departureTime: '',
       capacity: 1,
       message: '',
+      phoneNumber: '',
     },
   })
 
@@ -121,6 +123,25 @@ export default function OfferRidePage() {
               </button>
             ))}
           </div>
+        </div>
+
+        <div>
+          <label htmlFor="phoneNumber" className="mb-1 block">
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            {...register('phoneNumber', {
+              required: true,
+              pattern: {
+                value: /^\d{10}$/,
+                message: 'Please enter a 10-digit phone number',
+              },
+            })}
+            className="w-full rounded border p-2"
+            placeholder="1234567890"
+          />
         </div>
 
         <div>

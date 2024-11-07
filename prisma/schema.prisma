@@ -8,22 +8,24 @@ datasource db {
 }
 
 model Ride {
-  id             String    @id @default(uuid())
-  meetingPoint   String
-  destination    String
-  departureTime  DateTime
-  capacity Int
-  message        String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  userId         String    // Will link to User model when auth is added
-  bookings       Booking[]
+  id              String    @id @default(uuid())
+  meetingPoint    String
+  destination     String
+  departureTime   DateTime
+  capacity        Int
+  message         String?
+  userPhoneNumber String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  bookings        Booking[]
 }
 
 model Booking {
-  id        String   @id @default(uuid())
-  ride      Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
-  rideId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(uuid())
+  ride            Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  rideId          String
+  userPhoneNumber String
+  capacity        Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

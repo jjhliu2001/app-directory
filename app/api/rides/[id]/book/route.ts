@@ -8,6 +8,10 @@ export async function POST(
   const { id } = await params
 
   try {
+    // Get email from request body
+    const body = await request.json()
+    const { phoneNumber } = body
+
     // Find the ride and check if seats are available
     const ride = await prisma.ride.findUnique({
       where: { id },
@@ -29,6 +33,7 @@ export async function POST(
     const booking = await prisma.booking.create({
       data: {
         rideId: id,
+        userPhoneNumber: phoneNumber,
       },
     })
 

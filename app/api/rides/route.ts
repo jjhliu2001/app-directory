@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { cookies } from 'next/headers'
 
 // Input validation schema
 const createRideSchema = z.object({
@@ -8,15 +9,16 @@ const createRideSchema = z.object({
   destination: z.string().min(1, 'Destination is required'),
   departureTimeMs: z.number().int().min(0, 'Invalid departure time'),
   capacity: z.number().int().min(1, 'Must offer at least 1 seat'),
-  message: z.string().optional(),
+  message: z.string().default(''),
+  phoneNumber: z
+    .string()
+    .regex(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
 })
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
-    // Validate input
-    console.log('body', body)
     const validatedData = createRideSchema.parse(body)
 
     // Create ride in database
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
         departureTime: new Date(validatedData.departureTimeMs), // TODO use date library
         capacity: validatedData.capacity,
         message: validatedData.message,
-        userId: 'temp-user-id', // TODO: Get from auth session
+        userPhoneNumber: validatedData.phoneNumber,
       },
     })
 

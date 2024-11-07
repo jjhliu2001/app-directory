@@ -10,6 +10,9 @@ export async function GET(
   try {
     const ride = await prisma.ride.findUnique({
       where: { id },
+      include: {
+        bookings: true,
+      },
     })
 
     if (!ride) {
