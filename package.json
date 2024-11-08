@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "preload": "echo ENV=${ENV:-'development'} && dotenv -c ${ENV:-'development'} --",
+    "prebuild": "npm run preload -- prisma generate",
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
