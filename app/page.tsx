@@ -79,7 +79,7 @@ export default function Page() {
                   2. Share
                 </div>
                 <div className="mt-2 text-base text-gray-500">
-                  Share your ride link via text message
+                  Share your ride link to you classmates
                 </div>
               </div>
               <div className="pt-6">
