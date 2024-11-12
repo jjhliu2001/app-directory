@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Ride, Booking } from '@prisma/client'
 import {
@@ -37,7 +37,7 @@ export default function RidePage() {
   const [bookingName, setBookingName] = useState('')
   const [showBookingForm, setShowBookingForm] = useState(false)
 
-  const fetchRide = async () => {
+  const fetchRide = useCallback(async () => {
     try {
       const response = await fetch(`/api/rides/${params.id}`)
       if (!response.ok) {
@@ -50,11 +50,11 @@ export default function RidePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id])
 
   useEffect(() => {
     fetchRide()
-  }, [params.id])
+  }, [fetchRide])
 
   const handleBookRide = async () => {
     if (!ride || !bookingName.trim()) return
