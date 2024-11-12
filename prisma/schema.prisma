@@ -4,20 +4,17 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Ride {
-  id              String    @id @default(uuid())
-  meetingPoint    String
-  destination     String
-  departureTimeMs BigInt
-  capacity        Int
-  message         String?
-  fullName        String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  bookings        Booking[]
+  id          Int      @id @default(autoincrement())
+  departure   String
+  destination String
+  date        DateTime
+  seats       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Booking {

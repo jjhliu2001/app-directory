@@ -3,39 +3,22 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Ride, Booking } from '@prisma/client'
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  List,
-  ListItem,
-  Stack,
-  Text,
-  VStack,
-  useToast,
-  HStack,
-  Icon,
-  Flex,
-} from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { FaArrowDown, FaArrowRight } from 'react-icons/fa'
+import { FaArrowDown } from 'react-icons/fa'
 
 export default function RidePage() {
   const params = useParams()
   const router = useRouter()
-  const toast = useToast()
-  const [ride, setRide] = useState<(Ride & { bookings: Booking[] }) | null>(
-    null,
-  )
+  const [ride, setRide] = useState<(Ride & { bookings: Booking[] }) | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [bookingInProgress, setBookingInProgress] = useState(false)
   const [bookingName, setBookingName] = useState('')
   const [showBookingForm, setShowBookingForm] = useState(false)
+  const [toastMessage, setToastMessage] = useState<{
+    title: string;
+    type: 'success' | 'error';
+  } | null>(null)
 
   const fetchRide = useCallback(async () => {
     try {
@@ -76,20 +59,11 @@ export default function RidePage() {
       await fetchRide()
       setShowBookingForm(false)
       setBookingName('')
-
-      toast({
-        title: 'Ride booked successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
+      setToastMessage({ title: 'Ride booked successfully', type: 'success' })
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: err instanceof Error ? err.message : 'Failed to book ride',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
+      setToastMessage({
+        title: err instanceof Error ? err.message : 'Failed to book ride',
+        type: 'error'
       })
     } finally {
       setBookingInProgress(false)
@@ -98,148 +72,155 @@ export default function RidePage() {
 
   if (loading) {
     return (
-      <Box p={8} textAlign="center">
+      <div className="p-8 text-center">
         Loading...
-      </Box>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Box p={8} textAlign="center" color="red.500">
+      <div className="p-8 text-center text-red-500">
         {error}
-      </Box>
+      </div>
     )
   }
 
   if (!ride) {
     return (
-      <Box p={8} textAlign="center">
+      <div className="p-8 text-center">
         Ride not found
-      </Box>
+      </div>
     )
   }
 
   const seatsRemaining = ride.capacity - (ride.bookings?.length || 0)
 
   return (
-    <Container maxW="2xl" py={6}>
-      <Box bg="white" p={6} borderRadius="lg" boxShadow="base">
-        <VStack spacing={4} align="stretch">
-          <Flex flexDir="column" gap={4} align="center" justify="center">
-            <Text fontSize="lg" fontWeight="bold">
+    <div className="container mx-auto max-w-2xl py-6">
+      <div className="bg-white p-6 rounded-lg shadow">
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-col gap-4 items-center justify-center">
+            <span className="text-lg font-bold">
               {ride.meetingPoint}
-            </Text>
-            <Icon as={FaArrowDown} w={6} h={6} color="blue.500" />
-            <Text fontSize="lg" fontWeight="bold">
+            </span>
+            <FaArrowDown className="w-6 h-6 text-blue-500" />
+            <span className="text-lg font-bold">
               {ride.destination}
-            </Text>
-          </Flex>
+            </span>
+          </div>
 
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+          <div>
+            <span className="text-sm font-medium text-gray-500">
               Departing at
-            </Text>
-            <Text mt={1}>
-              {dayjs(ride.departureTime).format('DD MMM h:mm A')}
-            </Text>
-          </Box>
+            </span>
+            <p className="mt-1">
+              {dayjs(Number(ride.departureTimeMs)).format('DD MMM h:mm A')}
+            </p>
+          </div>
 
-          <Box>
-            <Text fontSize="sm" fontWeight="medium" color="gray.500">
+          <div>
+            <span className="text-sm font-medium text-gray-500">
               Driver
-            </Text>
-            <Text mt={1}>{ride.fullName}</Text>
-          </Box>
+            </span>
+            <p className="mt-1">{ride.fullName}</p>
+          </div>
 
           {ride.message && (
-            <Box>
-              <Text fontSize="sm" fontWeight="medium" color="gray.500">
+            <div>
+              <span className="text-sm font-medium text-gray-500">
                 Message
-              </Text>
-              <Text mt={1}>{ride.message}</Text>
-            </Box>
+              </span>
+              <p className="mt-1">{ride.message}</p>
+            </div>
           )}
 
-          <Box>
-            <Flex justify="space-between" align="center">
-              <Text fontSize="sm" fontWeight="medium" color="gray.500">
+          <div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium text-gray-500">
                 Current Bookings
-              </Text>
-              <Text
-                fontSize="sm"
-                fontWeight="medium"
-                color={seatsRemaining > 0 ? 'green.500' : 'red.500'}
-              >
+              </span>
+              <span className={`text-sm font-medium ${seatsRemaining > 0 ? 'text-green-500' : 'text-red-500'
+                }`}>
                 {seatsRemaining} of {ride.capacity} seats available
-              </Text>
-            </Flex>
+              </span>
+            </div>
             {ride.bookings && ride.bookings.length > 0 ? (
-              <List spacing={2} mt={2}>
+              <ul className="space-y-2 mt-2">
                 {ride.bookings.map((booking) => (
-                  <ListItem
+                  <li
                     key={booking.id}
-                    p={3}
-                    bg="gray.50"
-                    borderRadius="lg"
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    className="p-3 bg-gray-50 rounded-lg flex justify-between items-center"
                   >
-                    <Text>{booking.fullName}</Text>
-                  </ListItem>
+                    <span>{booking.fullName}</span>
+                  </li>
                 ))}
-              </List>
+              </ul>
             ) : (
-              <Text mt={1} color="gray.500">
+              <p className="mt-1 text-gray-500">
                 No bookings yet
-              </Text>
+              </p>
             )}
-          </Box>
+          </div>
 
-          <Box pt={4}>
+          <div className="pt-4">
             {!showBookingForm ? (
-              <Button
+              <button
                 onClick={() => setShowBookingForm(true)}
-                isDisabled={seatsRemaining < 1}
-                colorScheme="blue"
-                width="100%"
+                disabled={seatsRemaining < 1}
+                className={`w-full py-2 px-4 rounded-md ${seatsRemaining < 1
+                  ? 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
               >
                 {seatsRemaining < 1 ? 'No Seats Available' : 'Book This Ride'}
-              </Button>
+              </button>
             ) : (
-              <VStack spacing={4}>
-                <FormControl isRequired>
-                  <FormLabel>Your Full Name</FormLabel>
-                  <Input
+              <div className="flex flex-col space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Your Full Name
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
                     placeholder="Enter your full name"
                     value={bookingName}
                     onChange={(e) => setBookingName(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
-                </FormControl>
-                <HStack width="100%">
-                  <Button
+                </div>
+                <div className="flex space-x-4">
+                  <button
                     onClick={() => setShowBookingForm(false)}
-                    variant="outline"
-                    width="50%"
+                    className="w-1/2 py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-50"
                   >
                     Cancel
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     onClick={handleBookRide}
-                    isLoading={bookingInProgress}
-                    isDisabled={!bookingName.trim()}
-                    colorScheme="blue"
-                    width="50%"
+                    disabled={bookingInProgress || !bookingName.trim()}
+                    className={`w-1/2 py-2 px-4 rounded-md ${bookingInProgress || !bookingName.trim()
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}
                   >
-                    Confirm Booking
-                  </Button>
-                </HStack>
-              </VStack>
+                    {bookingInProgress ? 'Booking...' : 'Confirm Booking'}
+                  </button>
+                </div>
+              </div>
             )}
-          </Box>
-        </VStack>
-      </Box>
-    </Container>
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Message */}
+      {toastMessage && (
+        <div className={`fixed bottom-4 right-4 p-4 rounded-md shadow-lg ${toastMessage.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+          } text-white`}>
+          {toastMessage.title}
+        </div>
+      )}
+    </div>
   )
 }

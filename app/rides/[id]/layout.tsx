@@ -1,13 +1,19 @@
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 
+type Props = {
+    params: {
+        id: string
+    }
+}
+
 export async function generateMetadata(
-    { params }: { params: { id: string } },
-    parent: ResolvingMetadata
+    props: Props
 ): Promise<Metadata> {
-    // Fetch ride data
+    const { id } = props.params
+
     const ride = await prisma.ride.findUnique({
-        where: { id: params.id },
+        where: { id },
         include: { bookings: true },
     })
 
@@ -28,7 +34,7 @@ export async function generateMetadata(
             type: 'website',
             images: [
                 {
-                    url: `/api/og/rides/${params.id}`,
+                    url: `/api/og/rides/${id}`,
                     width: 1200,
                     height: 630,
                     alt: `Ride to ${ride.destination}`,
