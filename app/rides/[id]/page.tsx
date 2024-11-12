@@ -34,8 +34,8 @@ export default function RidePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [bookingInProgress, setBookingInProgress] = useState(false)
-  const [showPhoneForm, setShowPhoneForm] = useState(false)
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [bookingName, setBookingName] = useState('')
+  const [showBookingForm, setShowBookingForm] = useState(false)
 
   const fetchRide = async () => {
     try {
@@ -57,7 +57,7 @@ export default function RidePage() {
   }, [params.id])
 
   const handleBookRide = async () => {
-    if (!ride) return
+    if (!ride || !bookingName.trim()) return
 
     setBookingInProgress(true)
     try {
@@ -66,16 +66,16 @@ export default function RidePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber }),
+        body: JSON.stringify({ fullName: bookingName.trim() })
       })
 
       if (!response.ok) {
         throw new Error('Failed to book ride')
       }
 
-      setShowPhoneForm(false)
-      setPhoneNumber('')
-      await fetchRide() // Refresh the data after booking
+      await fetchRide()
+      setShowBookingForm(false)
+      setBookingName('')
 
       toast({
         title: 'Ride booked successfully',
@@ -122,14 +122,6 @@ export default function RidePage() {
 
   const seatsRemaining = ride.capacity - (ride.bookings?.length || 0)
 
-  const formatPhoneNumber = (phone: string) => {
-    const cleaned = phone.replace(/\D/g, '')
-    if (cleaned.length === 10) {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
-    }
-    return phone
-  }
-
   return (
     <Container maxW="2xl" py={6}>
       <Box bg="white" p={6} borderRadius="lg" boxShadow="base">
@@ -155,9 +147,9 @@ export default function RidePage() {
 
           <Box>
             <Text fontSize="sm" fontWeight="medium" color="gray.500">
-              Driver&apos;s Phone Number
+              Driver
             </Text>
-            <Text mt={1}>📱 {formatPhoneNumber(ride.userPhoneNumber)}</Text>
+            <Text mt={1}>{ride.fullName}</Text>
           </Box>
 
           {ride.message && (
@@ -194,7 +186,7 @@ export default function RidePage() {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Text>📱 {formatPhoneNumber(booking.userPhoneNumber)}</Text>
+                    <Text>{booking.fullName}</Text>
                   </ListItem>
                 ))}
               </List>
@@ -206,53 +198,44 @@ export default function RidePage() {
           </Box>
 
           <Box pt={4}>
-            {showPhoneForm ? (
-              <Stack spacing={4}>
-                <FormControl>
-                  <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
-                  <Input
-                    type="tel"
-                    id="phoneNumber"
-                    value={phoneNumber}
-                    onChange={(e) => {
-                      const cleaned = e.target.value.replace(/\D/g, '')
-                      setPhoneNumber(cleaned)
-                    }}
-                    placeholder="(215) 555-0123"
-                    pattern="[0-9]{10}"
-                    required
-                  />
-                </FormControl>
-                <Stack direction="row" spacing={2}>
-                  <Button
-                    onClick={handleBookRide}
-                    isDisabled={
-                      bookingInProgress || !phoneNumber.match(/^\d{10}$/)
-                    }
-                    colorScheme="blue"
-                    flex={1}
-                    isLoading={bookingInProgress}
-                    loadingText="Booking..."
-                  >
-                    Book
-                  </Button>
-                  <Button
-                    onClick={() => setShowPhoneForm(false)}
-                    variant="outline"
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
-              </Stack>
-            ) : (
+            {!showBookingForm ? (
               <Button
-                onClick={() => setShowPhoneForm(true)}
+                onClick={() => setShowBookingForm(true)}
                 isDisabled={seatsRemaining < 1}
                 colorScheme="blue"
                 width="100%"
               >
                 {seatsRemaining < 1 ? 'No Seats Available' : 'Book This Ride'}
               </Button>
+            ) : (
+              <VStack spacing={4}>
+                <FormControl isRequired>
+                  <FormLabel>Your Full Name</FormLabel>
+                  <Input
+                    placeholder="Enter your full name"
+                    value={bookingName}
+                    onChange={(e) => setBookingName(e.target.value)}
+                  />
+                </FormControl>
+                <HStack width="100%">
+                  <Button
+                    onClick={() => setShowBookingForm(false)}
+                    variant="outline"
+                    width="50%"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleBookRide}
+                    isLoading={bookingInProgress}
+                    isDisabled={!bookingName.trim()}
+                    colorScheme="blue"
+                    width="50%"
+                  >
+                    Confirm Booking
+                  </Button>
+                </HStack>
+              </VStack>
             )}
           </Box>
         </VStack>

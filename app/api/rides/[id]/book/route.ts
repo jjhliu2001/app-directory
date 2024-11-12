@@ -1,48 +1,56 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
-
   try {
-    // Get email from request body
-    const body = await request.json()
-    const { phoneNumber } = body
+    const rideId = params.id
+    const { fullName } = await request.json()
 
-    // Find the ride and check if seats are available
+    if (!fullName?.trim()) {
+      return NextResponse.json(
+        { message: 'Full name is required' },
+        { status: 400 }
+      )
+    }
+
     const ride = await prisma.ride.findUnique({
-      where: { id },
+      where: { id: rideId },
+      include: { bookings: true },
     })
 
     if (!ride) {
-      return NextResponse.json({ error: 'Ride not found' }, { status: 404 })
-    }
-    // Get current number of bookings
-    const bookingsCount = await prisma.booking.count({
-      where: { rideId: id },
-    })
-
-    if (bookingsCount >= ride.capacity) {
-      return NextResponse.json({ error: 'No seats available' }, { status: 400 })
+      return NextResponse.json(
+        { message: 'Ride not found' },
+        { status: 404 }
+      )
     }
 
-    // Create booking
+    const seatsRemaining = ride.capacity - ride.bookings.length
+    if (seatsRemaining < 1) {
+      return NextResponse.json(
+        { message: 'No seats available' },
+        { status: 400 }
+      )
+    }
+
     const booking = await prisma.booking.create({
       data: {
-        rideId: id,
-        userPhoneNumber: phoneNumber,
+        rideId,
+        fullName: fullName.trim(),
+        capacity: 1,
       },
     })
 
-    return NextResponse.json({ booking, ride }, { status: 200 })
+    return NextResponse.json(booking, { status: 201 })
+
   } catch (error) {
     console.error('Error booking ride:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
+      { message: 'Error booking ride' },
+      { status: 500 }
     )
   }
 }

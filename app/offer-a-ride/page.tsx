@@ -23,176 +23,172 @@ type FormData = {
   departureTime: string
   capacity: number
   message: string
-  phoneNumber: string
+  fullName: string
 }
 
 export default function OfferRidePage() {
   const router = useRouter()
-  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
     defaultValues: {
       meetingPoint: '',
       destination: '',
       departureTime: '',
       capacity: 1,
       message: '',
-      phoneNumber: '',
+      fullName: '',
     },
   })
 
   const capacity = watch('capacity')
 
   const onSubmit = async (data: FormData) => {
+    console.log('Form submitted with data:', data)
     try {
-      // Convert datetime-local string to epoch seconds
-      const departureTimeEpoch = new Date(data.departureTime).valueOf()
+      const departureTime = new Date(data.departureTime)
+      if (isNaN(departureTime.valueOf())) {
+        throw new Error('Invalid departure time')
+      }
+
+      const departureTimeEpoch = departureTime.valueOf()
+
+      const payload = {
+        ...data,
+        departureTimeMs: departureTimeEpoch,
+      }
+      console.log('Sending payload:', payload)
 
       const response = await fetch('/api/rides', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...data,
-          departureTimeMs: departureTimeEpoch,
-          phoneNumber: data.phoneNumber.replace(/\D/g, ''), // Strip non-numeric characters
-        }),
+        body: JSON.stringify(payload),
       })
 
+      console.log('Response status:', response.status)
+      const responseData = await response.json()
+      console.log('Response data:', responseData)
+
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Failed to create ride')
+        throw new Error(responseData.message || `Failed to create ride: ${response.status}`)
       }
 
-      const ride = await response.json()
-      console.log('Ride created:', ride)
-
-      // Redirect to the ride details page
-      router.push(`/rides/${ride.id}`)
+      console.log('Ride created successfully:', responseData)
+      router.push(`/rides/${responseData.id}`)
     } catch (error) {
       console.error('Error creating ride:', error)
-      // TODO: Show error message to user
+      // You might want to add an error state here
+      // setError(error.message)
     }
   }
 
   return (
-    <Container maxW="2xl" py={6}>
-      <Heading as="h1" size="xl" mb={6}>
-        Offer a Ride
-      </Heading>
+    <div className="container mx-auto max-w-2xl py-6 px-4">
+      <h1 className="text-3xl font-bold mb-6">Offer a Ride</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={4}>
-          <FormControl>
-            <FormLabel htmlFor="destination">
-              Destination
-              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
-                Where are you heading to?
-              </Box>
-            </FormLabel>
-            <Input
-              id="destination"
-              {...register('destination', { required: true })}
-            />
-          </FormControl>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <label htmlFor="destination" className="block font-medium">
+            Destination
+            <span className="text-sm text-gray-500 ml-2">Where are you heading to?</span>
+          </label>
+          <input
+            id="destination"
+            className="w-full p-2 border rounded-md"
+            {...register('destination', {
+              required: 'Destination is required',
+              minLength: { value: 2, message: 'Destination must be at least 2 characters' }
+            })}
+          />
+        </div>
 
-          <FormControl>
-            <FormLabel htmlFor="meetingPoint">
-              Meeting Point
-              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
-                Where should your passengers meet you?
-              </Box>
-            </FormLabel>
-            <Input
-              id="meetingPoint"
-              {...register('meetingPoint', { required: true })}
-            />
-          </FormControl>
+        <div className="space-y-2">
+          <label htmlFor="meetingPoint" className="block font-medium">
+            Meeting Point
+            <span className="text-sm text-gray-500 ml-2">Where should your passengers meet you?</span>
+          </label>
+          <input
+            id="meetingPoint"
+            className="w-full p-2 border rounded-md"
+            {...register('meetingPoint', { required: true })}
+          />
+        </div>
 
-          <FormControl>
-            <FormLabel htmlFor="departureTime">Departure Time</FormLabel>
-            <Input
-              type="datetime-local"
-              id="departureTime"
-              {...register('departureTime', { required: true })}
-            />
-          </FormControl>
+        <div className="space-y-2">
+          <label htmlFor="departureTime" className="block font-medium">Departure Time</label>
+          <input
+            type="datetime-local"
+            id="departureTime"
+            className="w-full p-2 border rounded-md"
+            {...register('departureTime', { required: true })}
+          />
+        </div>
 
-          <FormControl>
-            <FormLabel>
-              Seats Available
-              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
-                How many passengers can you take?
-              </Box>
-            </FormLabel>
-            <HStack spacing={4}>
-              {[1, 2, 3, 4].map((seats) => (
-                <IconButton
-                  key={seats}
-                  aria-label={`${seats} seats`}
-                  icon={
-                    <HStack spacing={1}>
-                      {[...Array(seats)].map((_, i) => (
-                        <FaUser key={i} />
-                      ))}
-                    </HStack>
-                  }
-                  onClick={() => setValue('capacity', seats)}
-                  colorScheme={capacity === seats ? 'blue' : 'gray'}
-                  variant={capacity === seats ? 'solid' : 'outline'}
-                  size="lg"
-                  p={6}
-                />
-              ))}
-            </HStack>
-          </FormControl>
+        <div className="space-y-2">
+          <label className="block font-medium">
+            Seats Available
+            <span className="text-sm text-gray-500 ml-2">How many passengers can you take?</span>
+          </label>
+          <div className="flex gap-4">
+            {[1, 2, 3, 4].map((seats) => (
+              <button
+                key={seats}
+                type="button"
+                onClick={() => setValue('capacity', seats)}
+                className={`p-4 border rounded-md ${capacity === seats
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700'
+                  }`}
+              >
+                <div className="flex gap-1">
+                  {Array.from({ length: seats }).map((_, i) => (
+                    <FaUser key={i} />
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
-          <FormControl>
-            <FormLabel htmlFor="phoneNumber">
-              Phone Number
-              <Box as="span" fontSize="sm" color="gray.500" ml={2}>
-                Passengers may choose to text/call you
-              </Box>
-            </FormLabel>
-            <Input
-              type="tel"
-              id="phoneNumber"
-              {...register('phoneNumber', {
-                required: true,
-                setValueAs: (value) => {
-                  // Remove all non-digits
-                  const cleaned = value.replace(/\D/g, '')
-                  // Format as (XXX) XXX-XXXX
-                  if (cleaned.length >= 10) {
-                    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`
-                  }
-                  return cleaned
-                },
-                pattern: {
-                  value: /^\(\d{3}\) \d{3}-\d{4}$/,
-                  message: 'Please enter a valid phone number',
-                },
-              })}
-              placeholder="(215) 812-3456"
-            />
-          </FormControl>
+        <div className="space-y-2">
+          <label htmlFor="fullName" className="block font-medium">
+            Full Name
+            <span className="text-sm text-gray-500 ml-2">Let passengers know who you are</span>
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            className="w-full p-2 border rounded-md"
+            placeholder="John Doe"
+            {...register('fullName', {
+              required: true,
+              minLength: {
+                value: 2,
+                message: 'Name must be at least 2 characters long',
+              },
+            })}
+          />
+        </div>
 
-          <FormControl>
-            <FormLabel htmlFor="message">
-              Additional Information for Riders
-            </FormLabel>
-            <Textarea
-              id="message"
-              {...register('message')}
-              height="32"
-              placeholder="e.g. I won't wait more than 5 minutes"
-            />
-          </FormControl>
+        <div className="space-y-2">
+          <label htmlFor="message" className="block font-medium">
+            Additional Information for Riders
+          </label>
+          <textarea
+            id="message"
+            className="w-full p-2 border rounded-md h-32"
+            placeholder="e.g. I won't wait more than 5 minutes"
+            {...register('message')}
+          />
+        </div>
 
-          <Button type="submit" colorScheme="blue" size="lg">
-            Offer Ride
-          </Button>
-        </Stack>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-3 px-4 rounded-md hover:bg-blue-600"
+        >
+          Offer Ride
+        </button>
       </form>
-    </Container>
+    </div>
   )
 }

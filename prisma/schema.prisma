@@ -11,12 +11,12 @@ model Ride {
   id              String    @id @default(uuid())
   meetingPoint    String
   destination     String
-  departureTime   DateTime
+  departureTimeMs BigInt
   capacity        Int
   message         String?
-  userPhoneNumber String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  fullName        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   bookings        Booking[]
 }
 
@@ -24,7 +24,7 @@ model Booking {
   id              String   @id @default(uuid())
   ride            Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
   rideId          String
-  userPhoneNumber String
+  fullName        String
   capacity        Int      @default(1)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

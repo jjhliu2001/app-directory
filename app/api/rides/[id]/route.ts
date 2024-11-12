@@ -19,7 +19,12 @@ export async function GET(
       return NextResponse.json({ error: 'Ride not found' }, { status: 404 })
     }
 
-    return NextResponse.json(ride, { status: 200 })
+    const serializedRide = {
+      ...ride,
+      departureTimeMs: ride.departureTimeMs.toString(),
+    }
+
+    return NextResponse.json(serializedRide, { status: 200 })
   } catch (error) {
     console.error('Error fetching ride:', error)
     return NextResponse.json(
